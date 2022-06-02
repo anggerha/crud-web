@@ -6,7 +6,8 @@ import KimiaDarah from '../components/KimiaDarah.vue'
 import Hermatologi from '../components/Hermatologi.vue'
 import ImunologiSerologi from '../components/ImunologiSerologi.vue'
 import Registrasi from '../components/Registrasi.vue'
-import ReviewHasil from '../components/ReviewHasil'
+import ReviewHasil from '../components/ReviewHasil.vue'
+import UpdateData from '../layout/UpdateData.vue'
 
 Vue.use(VueRouter)
 
@@ -49,6 +50,12 @@ const routes = [
     path: '/ReviewHasil',
     name: 'Review Hasil',
     component: ReviewHasil,
+    props: true
+  },
+  {
+    path: '/UpdateData',
+    name: 'Update Data',
+    component: UpdateData,
     props: true
   },
 ]

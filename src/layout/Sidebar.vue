@@ -6,7 +6,7 @@
             :header="header"
             :fa="true"
             >
-            <b-button variant="danger">Logout</b-button>
+            
             <template v-slot:navbar>
                 <b-navbar
                 id="mainNavbar"
@@ -19,6 +19,7 @@
                     <b-nav-item>
                         <router-link style="text-decoration: none; color: inherit;" :to="'/Home'">ProLab</router-link>
                     </b-nav-item>
+                    <b-button id="logout" variant="danger" @click="logout">Logout</b-button>
                 </b-navbar-nav>
                 </b-navbar>
             </template>
@@ -35,11 +36,19 @@
 
 <script>
 import BootstrapSidebar from "vue-bootstrap-sidebar";
+import firebase from 'firebase/app'
 
 export default {
     name: 'Sidebar',
     components: {
         BootstrapSidebar,
+    },
+    mounted() {
+        this.$nextTick(function () {
+            window.setInterval(() => {
+                this.clear()
+            },100);
+        })
     },
     data() {
       return {
@@ -72,6 +81,12 @@ export default {
                         name: "Imunologi Serologi",
                     }
                 },
+                {
+                    name: "Lain-Lain",
+                    href: {
+                        name: "",
+                    }
+                },
             ],
             },
             { name: "Registrasi", href: { name: "Registrasi" }},
@@ -79,7 +94,17 @@ export default {
         ],
       }
     },
-    method:{
+    methods: {
+        logout(){
+            firebase.auth().signOut().then(() => {
+                this.$router.push('/')
+            }, function(error) {
+                console.log(error)
+            });
+        },
+        clear(){
+                console.clear()
+            },
     }
 }
 </script>
@@ -91,14 +116,10 @@ export default {
 </style>
 
 <style>
-    #button{ 
-        margin: auto;
-        margin-left: 1rem;
-        margin-top: 0.5rem;
-        font-size: 2rem;
-        color: black;
-        width: max-content;
-        border: none;
-        background-color: transparent;
+    #logout{
+        position: absolute;
+        margin-right: 2rem;
+        right: 0%;
     }
+    
 </style>

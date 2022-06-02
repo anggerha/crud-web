@@ -1,20 +1,53 @@
 <template>
   <div>
     <div class="row justify-content-center">
-        <div class="col-md-5">
-            <h3 class="text-center">Add User</h3>
+        <b-alert id="alert"
+            :show="dismissCountDown"
+            dismissible
+            variant="success"
+            @dismissed="dismissCountDown=0"
+            @dismiss-count-down="countDownChanged"
+            >
+            <p>Tambah Pasien Berhasil</p>
+        </b-alert>
+        <div >
+            <h3 class="text-center">Pasien</h3>
             <form @submit.prevent="onFormSubmit">
                 <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" v-model="user.name" required>
+                    <label>Nomor Rekam Medik</label>
+                    <input type="text" class="form-control" v-model="user.nomor" required>
                 </div>
                 <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" v-model="user.email" required>
+                    <label>Nama Pasien</label>
+                    <input type="text" class="form-control" placeholder="Nama Pasien" v-model="user.namaPasien" required>
                 </div>
                 <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" class="form-control" v-model="user.phone" required>
+                    <label>Tanggal</label>
+                    <date-picker v-model="user.tanggal" value-type="format" format="YYYY-MM-DD"></date-picker>
+                </div>
+                <div class="form-group">
+                    <label>Jenis Kelamin</label>
+                    <b-form-select type="text" class="form-control" placeholder="Jenis Kelamin" v-model="user.jenisKelamin" required :options="jenisKelamin"></b-form-select>
+                </div>
+                <div class="form-group">
+                    <label>Status Pasien</label>
+                    <b-form-select type="text" class="form-control" placeholder="Status Pasien" v-model="user.statusPasien" :options="statusPasien"></b-form-select>
+                </div>
+                <div class="form-group">
+                    <label>NIK</label>
+                    <input type="text" class="form-control" placeholder="Nomor Induk Kependudukan" v-model="user.nik" required>
+                </div>
+                <div class="form-group">
+                    <label>Nomor Jamkes/BPJS/Asuransi</label>
+                    <input type="text" class="form-control" placeholder="Nomor Jamkes/BPJS/Asuransi" v-model="user.nomorJamkes" required>
+                </div>
+                <div class="form-group">
+                    <label>Nomor Kontak</label>
+                    <input type="text" class="form-control" placeholder="Nomor Kontak" v-model="user.nomorKontak" required>
+                </div>
+                <div class="form-group">
+                    <label>Alamat Lengkap</label>
+                    <input type="text" class="form-control" placeholder="Alamat Lengkap" v-model="user.alamatLengkap" required>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary btn-block">Add User</button>
@@ -26,30 +59,72 @@
 </template>
 
 <script>
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+
 import { db } from '../components/firebase'
 export default {
     name: 'Add',
+    components:{
+        DatePicker
+    },
     data() {
         return {
             user: {
-                name: '',
-                email: '',
-                phone: ''
-            }
+                nomor:'',
+                namaPasien: '',
+                tanggal:'',
+                jenisKelamin:'',
+                statusPasien:'',
+                nik:'',
+                nomorJamkes:'',
+                nomorKontak:'',
+                alamatLengkap:''
+            },
+            jenisKelamin: [
+                {value: 'Laki-Laki', text: 'Laki-Laki'},
+                {value: 'Perempuan', text: 'Perempuan'}
+            ],
+            statusPasien:[
+                {value: 'Umum', text: 'Umum'},
+                {value: 'BPJS', text: 'BPJS'},
+                {value: 'Asuransi', text: 'Asuransi'},
+                {value: 'MCU', text: 'MCU'}
+            ],
+
+            dismissSecs: 2,
+            dismissCountDown: 0,
+            showDismissibleAlert: false
         }
     },
     methods: {
         onFormSubmit(event) {
             event.preventDefault()
-            db.collection('users').add(this.user).then(() => {
-                alert("User successfully created!");
-                this.user.name = ''
-                this.user.email = ''
-                this.user.phone = ''
+            db.collection('Pasien').add(this.user).then(() => {
+                this.showAlert()
+                this.user.nomor = 
+                this.user.namaPasien = ''
+                this.user.tanggal = ''
+                this.user.jenisKelamin = ''
+                this.user.statusPasien = ''
+                this.user.nik = ''
+                this.user.nomorJamkes = ''
+                this.user.nomorKontak = ''
+                this.user.alamatLengkap = ''
             }).catch((error) => {
                 console.log(error);
             });
-        }
+        },
+        countDownChanged(dismissCountDown) {
+            this.dismissCountDown = dismissCountDown
+        },
+        showAlert() {
+            this.dismissCountDown = this.dismissSecs
+        },
     }
 }
 </script>
+
+<style>
+
+</style>

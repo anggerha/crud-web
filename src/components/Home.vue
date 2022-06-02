@@ -7,22 +7,17 @@
             <b-card classs="card" border-variant="dark" header="Jumlah Pasien" align="center">
                 <b-card-text>{{pasien}} Pasien</b-card-text>
             </b-card>
-            <br>
-            <display/>
         </div>
     </div>
 </template>
 
 <script>
 import sidebar from '../layout/Sidebar'
-import display from '../layout/DisplayData'
+import { db } from '../components/firebase';
 
 export default {
     name: 'Home',
-    components: { sidebar, display },
-    created() {
-        this.totalPasien()
-    },
+    components: { sidebar },
     data() {
         return {
             hermatologi: {
@@ -34,15 +29,14 @@ export default {
             imunologiSerologi: {
                 jumlahPasien: 3
             },
-            pasien: 0,
-
+            pasien: null,
         }
     },
-    methods: {
-        totalPasien() {
-            this.pasien = this.hermatologi.jumlahPasien + this.kimiaDarah.jumlahPasien + this.imunologiSerologi.jumlahPasien
-        }
-    }
+    created() {
+        db.collection('Pasien').get().then(snap => {
+            this.pasien = snap.size // will return the collection size
+        });
+    },
 }
 </script>
 
