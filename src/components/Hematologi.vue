@@ -2,9 +2,9 @@
     <div>
         <sidebar/>
         <div>
-            <b-btn v-if="loginAs === 'Registrasi' || loginAs === 'Laboran'" id="tambahBtn" variant="outline-primary" v-b-modal.modal-kd>Tambah <b-icon icon="plus-circle"></b-icon> </b-btn>
-            <b-modal id="modal-kd" centered size="md" hide-footer hide-header>
-                <add-kimia-darah/>
+            <b-btn v-if="loginAs === 'Registrasi' || loginAs === 'Laboran'" id="tambahBtn" variant="outline-primary" v-b-modal.modal-ht>Tambah <b-icon icon="plus-circle"></b-icon> </b-btn>
+            <b-modal id="modal-ht" centered size="md" hide-footer hide-header>
+                <addhematologi/>
             </b-modal>
         </div>
         <br><br>
@@ -20,16 +20,16 @@
                         <th>Opsi</th>
                     </tr>
                 </thead>
-                <tbody v-if="kimiaDarah.length !== 0">
-                    <tr v-for="kimiadarah in kimiaDarah" :key="kimiadarah.key">
-                        <td>{{ kimiadarah.jenisPemeriksaan }}</td>
-                        <td>{{ kimiadarah.satuan }}</td>
-                        <td>{{ kimiadarah.nilaiRujukan }}</td>
-                        <td>{{ kimiadarah.metode }}</td>
-                        <td>Rp. {{ kimiadarah.harga }}</td>
+                <tbody v-if="hematologis.length !== 0">
+                    <tr v-for="hematologi in hematologis" :key="hematologi.key">
+                        <td>{{ hematologi.jenisPemeriksaan }}</td>
+                        <td>{{ hematologi.satuan }}</td>
+                        <td>{{ hematologi.nilaiRujukan }}</td>
+                        <td>{{ hematologi.metode }}</td>
+                        <td>Rp. {{ hematologi.harga }}</td>
                         <td>
-                            <b-btn :to="{name: 'Update Kimia Darah', params: { id: kimiadarah.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
-                            <button v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" @click.prevent="deleteUser(kimiadarah.key)" class="btn btn-danger"><b-icon icon="trash"></b-icon></button>
+                            <b-btn :to="{name: 'Update Hematologi', params: { id: hematologi.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
+                            <button v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" @click.prevent="deleteUser(hematologi.key)" class="btn btn-danger"><b-icon icon="trash"></b-icon></button>
                         </td>
                     </tr>
                 </tbody>
@@ -39,24 +39,24 @@
 </template>
 
 <script>
-import { db } from '../components/firebase';
+import { db } from './firebase';
 import sidebar from '../layout/Sidebar'
-import addKimiaDarah from '../layout/AddKimiaDarah'
+import addhematologi from '../layout/AddHematologi'
 
 export default {
-    name: 'KimiaDarah',
-    components: { sidebar, addKimiaDarah },
+    name: 'Hematologi',
+    components: { sidebar, addhematologi },
     data() {
         return {
-            kimiaDarah: [],
+            hematologis: [],
             loginAs: null
         }
     },
     created() {
-        db.collection('Kimia Darah').orderBy('jenisPemeriksaan', 'asc').onSnapshot((snapshotChange) => {
-            this.kimiaDarah = [];
+        db.collection('Hematologi').orderBy('jenisPemeriksaan', 'asc').onSnapshot((snapshotChange) => {
+            this.hematologis = [];
             snapshotChange.forEach((doc) => {
-                this.kimiaDarah.push({
+                this.hematologis.push({
                     key: doc.id,
                     jenisPemeriksaan: doc.data().jenisPemeriksaan,
                     satuan: doc.data().satuan,
@@ -74,7 +74,7 @@ export default {
         },
         deleteUser(id){
             if (window.confirm("Konfirmasi menghapus jenis pemeriksaan?")) {
-            db.collection("Kimia Darah").doc(id).delete().then(() => {
+            db.collection("Hematologi").doc(id).delete().then(() => {
                 console.log("Document deleted!");
             })
             .catch((error) => {

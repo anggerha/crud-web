@@ -5,7 +5,7 @@
             <div id="formInput">
                 <b-input-group id="email">
                     <b-icon class="prepend" icon="person"></b-icon>
-                    <b-form-input v-model="email" size="lg" placeholder="Email"></b-form-input>
+                    <b-form-input blur v-model="email" size="lg" placeholder="Email"></b-form-input>
                 </b-input-group>
                 <b-input-group id="password">
                     <b-icon class="prepend" icon="key"></b-icon>
@@ -13,8 +13,12 @@
                     <b-icon id="eye" v-if="passwordFieldType==='password'" icon="eye" font-scale="1.5" @click="switchVisibility"></b-icon>
                     <b-icon id="eye" v-if="passwordFieldType==='text'" icon="eye-slash" font-scale="1.5" @click="switchVisibility"></b-icon>
                 </b-input-group>
+                <b-input-group id="loginAs">
+                    <b-form-select id="role" type="text" v-model="loginAs" size="lg" :options="loginOption"></b-form-select>
+                </b-input-group>
             </div>
             <b-button id="button" size="lg" @click="login">Login</b-button>
+
         </b-form-group>
         <b-alert id="alert"
             :show="dismissCountDown"
@@ -23,7 +27,7 @@
             @dismissed="dismissCountDown=0"
             @dismiss-count-down="countDownChanged"
             >
-            <p>Email dan Password Salah</p>
+            <p>{{loginGagal}}</p>
         </b-alert>
     </div>
 </template>
@@ -42,7 +46,17 @@ export default {
 
             dismissSecs: 2,
             dismissCountDown: 0,
-            showDismissibleAlert: false
+            showDismissibleAlert: false,
+
+            loginGagal: 'Email atau Password Salah !',
+
+            loginAs: null,
+            loginOption: [
+                {value: null, text: 'Login As', disabled: true },
+                {value: 'Registrasi', text: 'Registrasi'},
+                {value: 'Manajer', text: 'Manajer'},
+                {value: 'Laboran', text: 'Laboran'},
+            ]
         }
     },
     methods: {
@@ -58,7 +72,13 @@ export default {
         login() {
             firebase.auth().signInWithEmailAndPassword(this.email, this.password)
             .then(() => {
-                this.$router.push('/Home')
+                if(this.loginAs !== null){
+                    localStorage.setItem('loginAs', this.loginAs)
+                    this.$router.push('/Home')
+                }else {
+                    this.loginGagal = 'Role belum dipilih !'
+                    this.showAlert()
+                }        
             })
             // eslint-disable-next-line no-unused-vars
             .catch(error => {
@@ -69,7 +89,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     #login{
         margin: auto;
         height: 100%;
@@ -78,23 +98,29 @@ export default {
     }
     #formInput{
         margin: auto;
-        background-color: blanchedalmond;
         padding: 2%;
     }
     #button{ 
-        margin-top: 1rem;
         color: black;
+        border: none;
         background-color: white;
     }
     #email{
         margin: auto;
         width: 22rem;
-        border-style: none;
     }
     #password{ 
         margin: auto;
         width: 22rem;
         margin-top: 0.5%;
+    }
+    #loginAs{
+        margin: auto;
+        width: 22rem;
+        margin-top: 0.5%;
+    }
+    #role{
+        margin-left: 2.35rem;
     }
     #eye{ 
         margin: auto;
@@ -102,7 +128,6 @@ export default {
     }
     #title{ 
         font-size: 5rem;
-        font-family: 'Courier New', Courier, monospace;
         margin: 0%;
     }
     #alert{ 

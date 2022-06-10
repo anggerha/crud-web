@@ -3,14 +3,15 @@
         <b-alert id="alert"
             :show="dismissCountDown"
             dismissible
-            variant="success"
+            variant="danger"
             @dismissed="dismissCountDown=0"
             @dismiss-count-down="countDownChanged"
             >
-            <p>Tambah Pasien Berhasil</p>
+            <p>Tambah Pasien Gagal</p>
         </b-alert>
-        <div class="col-md-5">
-            <h3 class="text-center">Update User</h3>
+        <div class="col-lg-5">
+            <button class="btn btn-danger btn-block" @click="kembali" style="width:min-content; float: right;">Kembali</button>
+            <h3 class="text-center" style="margin-left:5rem;">Update User</h3>
             <form @submit.prevent="onUpdateForm">
                 <div class="form-group">
                     <label>Nomor Rekam Medik</label>
@@ -52,7 +53,6 @@
                     <button class="btn btn-primary btn-block">Update User</button>
                 </div>
             </form>
-            <button class="btn btn-danger btn-block" @click="kembali">Kembali</button>
         </div>
     </div>
 </template>
@@ -97,10 +97,9 @@
                 event.preventDefault()
                 db.collection('Pasien').doc(this.$route.params.id)
                 .update(this.user).then(() => {
-                    this.showAlert()
                     this.$router.push('Registrasi')
-                }).catch((error) => {
-                    console.log(error);
+                }).catch(() => {
+                    this.showAlert()
                 });
             },
             countDownChanged(dismissCountDown) {

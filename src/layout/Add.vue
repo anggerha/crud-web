@@ -4,18 +4,18 @@
         <b-alert id="alert"
             :show="dismissCountDown"
             dismissible
-            variant="success"
+            variant="danger"
             @dismissed="dismissCountDown=0"
             @dismiss-count-down="countDownChanged"
             >
-            <p>Tambah Pasien Berhasil</p>
+            <p>Tambah Pasien Gagal</p>
         </b-alert>
         <div >
             <h3 class="text-center">Pasien</h3>
             <form @submit.prevent="onFormSubmit">
                 <div class="form-group">
                     <label>Nomor Rekam Medik</label>
-                    <input type="text" class="form-control" v-model="user.nomor" required>
+                    <input type="text" class="form-control" v-model="user.nomor" disabled required>
                 </div>
                 <div class="form-group">
                     <label>Nama Pasien</label>
@@ -35,24 +35,25 @@
                 </div>
                 <div class="form-group">
                     <label>NIK</label>
-                    <input type="text" class="form-control" placeholder="Nomor Induk Kependudukan" v-model="user.nik" required>
+                    <input type="text" class="form-control" minlength="16" maxlength="16" onkeypress="return event.charCode >= 48 && event.charCode <=57" placeholder="Nomor Induk Kependudukan" v-model="user.nik" required>
                 </div>
                 <div class="form-group">
                     <label>Nomor Jamkes/BPJS/Asuransi</label>
-                    <input type="text" class="form-control" placeholder="Nomor Jamkes/BPJS/Asuransi" v-model="user.nomorJamkes" required>
+                    <input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <=57" placeholder="Nomor Jamkes/BPJS/Asuransi" v-model="user.nomorJamkes" required>
                 </div>
                 <div class="form-group">
                     <label>Nomor Kontak</label>
-                    <input type="text" class="form-control" placeholder="Nomor Kontak" v-model="user.nomorKontak" required>
+                    <input type="text" class="form-control" minlength="11" maxlength="12" onkeypress="return event.charCode >= 48 && event.charCode <=57" placeholder="Nomor Kontak" v-model="user.nomorKontak" required>
                 </div>
                 <div class="form-group">
                     <label>Alamat Lengkap</label>
                     <input type="text" class="form-control" placeholder="Alamat Lengkap" v-model="user.alamatLengkap" required>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-block">Add User</button>
+                    <button class="btn btn-primary btn-block">Tambah</button>
                 </div>
             </form>
+            <button class="btn btn-danger btn-block" @click="$bvModal.hide('modal-center')">Batal</button>
         </div>
     </div>
   </div>
@@ -71,7 +72,7 @@ export default {
     data() {
         return {
             user: {
-                nomor:'',
+                nomor: '',
                 namaPasien: '',
                 tanggal:'',
                 jenisKelamin:'',
@@ -97,11 +98,13 @@ export default {
             showDismissibleAlert: false
         }
     },
+    created() {
+        this.countPasien()
+    },
     methods: {
         onFormSubmit(event) {
             event.preventDefault()
             db.collection('Pasien').add(this.user).then(() => {
-                this.showAlert()
                 this.user.nomor = 
                 this.user.namaPasien = ''
                 this.user.tanggal = ''
@@ -111,9 +114,15 @@ export default {
                 this.user.nomorJamkes = ''
                 this.user.nomorKontak = ''
                 this.user.alamatLengkap = ''
-            }).catch((error) => {
-                console.log(error);
+                this.$bvModal.hide('modal-center')
+            }).catch(() => {
+                this.showAlert()
             });
+        },
+        countPasien(){
+            db.collection('Pasien').get().then(snap => {
+            this.user.nomor = snap.size + 1 // will return the collection size
+        });
         },
         countDownChanged(dismissCountDown) {
             this.dismissCountDown = dismissCountDown
@@ -124,7 +133,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

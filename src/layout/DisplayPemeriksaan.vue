@@ -5,35 +5,32 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nomor Rekam</th>
+                        <th>Tanggal</th>
+                        <th>No Order Lab</th>
                         <th>Nama Pasien</th>
-                        <th>Tempat, Tanggal Lahir</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Status</th>
-                        <th>Kontak</th>
-                        <th>Cetak</th>
+                        <th>Dokter</th>
+                        <th>Ruangan</th>
+                        <th>Proses</th>
                         <th>Opsi</th>
                     </tr>
                 </thead>
-                <tbody v-if="Users.length !== 0">
-                    <tr v-for="user in Users" :key="user.key">
+                <tbody v-if="UsersPemeriksaan.length !== 0">
+                    <tr v-for="user in UsersPemeriksaan" :key="user.key">
                         <td></td>
-                        <td>{{ user.nomor }}</td>
-                        <td>{{ user.namaPasien }}</td>
                         <td>{{ user.tanggal }}</td>
-                        <td>{{ user.jenisKelamin }}</td>
-                        <td>{{ user.statusPasien }}</td>
-                        <td>{{ user.nomorKontak }}</td>
-                        <td>Opsi Cetak belum tersedia</td>
+                        <td>PK{{ user.tanggal + 0 + 0 + user.nomor}}</td>
+                        <td>{{ user.namaPasien}}</td>
+                        <td>{{ user.namaDokter }}</td>
+                        <td>{{ user.namaRuangan }}</td>
+                        <td>Proses</td>
                         <td>
-                            <!-- <router-link :to="{name: 'Update Data', params: { id: user.key }}" class="btn btn-primary"><b-icon icon="pencil"></b-icon></router-link> -->
-                            <b-btn :to="{name: 'Update Data', params: { id: user.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
+                            <b-btn :to="{name: 'Update Pemeriksaan', params: { id: user.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
                             <button v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" @click.prevent="deleteUser(user.key)" class="btn btn-danger"><b-icon icon="trash"></b-icon></button>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <h1 v-if="Users.length === 0">Belum Ada Data Pasien</h1>
+            <h1 v-if="UsersPemeriksaan.length === 0">Belum Ada Data Pasien</h1>
         </div>
     </div>
 </template>
@@ -41,37 +38,41 @@
     import { db } from '../components/firebase';
     
     export default {
-        name: 'DisplayData',
+        name: 'Display Pemeriksaan',
+        components: {
+            
+        },
         data() {
             return {
-                Users: [],
+                UsersPemeriksaan: [],
                 loginAs: '',
             }
         },
         created() {
-            db.collection('Pasien').orderBy("nomor", "desc").onSnapshot((snapshotChange) => {
-                this.Users = [];
+            db.collection('Pemeriksaan').orderBy("nomor", "desc").onSnapshot((snapshotChange) => {
+                this.UsersPemeriksaan = [];
                 snapshotChange.forEach((doc) => {
-                    this.Users.push({
+                    this.UsersPemeriksaan.push({
                         key: doc.id,
                         nomor: doc.data().nomor,
                         namaPasien: doc.data().namaPasien,
                         tanggal: doc.data().tanggal,
                         jenisKelamin: doc.data().jenisKelamin,
                         statusPasien: doc.data().statusPasien,
-                        nik: doc.data().nik,
-                        nomorJamkes: doc.data().nomorJamkes,
-                        nomorKontak: doc.data().nomorKontak,
-                        alamatLengkap: doc.data().alamatLengkap,
+                        namaDokter: doc.data().namaDokter,
+                        namaRuangan: doc.data().namaRuangan,
+                        nomorTelpRuangan: doc.data().nomorTelpRuangan,
+                        diagnosa: doc.data().diagnosa,
                     })
                 });
             });
             this.getRole()
+            this.countPasien()
         },
         methods: {
             deleteUser(id){
-              if (window.confirm("Konfirmasi menghapus pasien?")) {
-                db.collection("Pasien").doc(id).delete().then(() => {
+              if (window.confirm("Konfirmasi menghapus pemeriksaan pasien?")) {
+                db.collection("Pemeriksaan").doc(id).delete().then(() => {
                     console.log("Document deleted!");
                 })
                 .catch((error) => {
@@ -85,6 +86,7 @@
         },
     }
 </script>
+
 <style scoped>
     .btn-primary {
         margin-right: 12px;

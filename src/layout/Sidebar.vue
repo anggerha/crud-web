@@ -56,7 +56,7 @@ export default {
         variants: [
           'dark',
         ],
-        initialShow: true,
+        initialShow: false,
         header: "<h3>Menu</h3>",
         links: [
             { name: "Home", href: { name: "Home"}},
@@ -70,9 +70,9 @@ export default {
                     }
                 },
                 {
-                    name: "Hermatologi",
+                    name: "Hematologi",
                     href: {
-                        name: "Hermatologi",
+                        name: "Hematologi",
                     }
                 },
                 {
@@ -97,6 +97,7 @@ export default {
     methods: {
         logout(){
             firebase.auth().signOut().then(() => {
+                localStorage.clear()
                 this.$router.push('/')
             }, function(error) {
                 console.log(error)
@@ -110,8 +111,7 @@ export default {
 </script>
 
 <style lang="scss">
-/* @import "node_modules/bootstrap/scss/bootstrap";
-@import "node_modules/bootstrap-vue/src/index.scss"; */
+
 @import "node_modules/vue-bootstrap-sidebar/src/scss/default-theme";
 </style>
 
@@ -121,5 +121,4 @@ export default {
         margin-right: 2rem;
         right: 0%;
     }
-    
 </style>

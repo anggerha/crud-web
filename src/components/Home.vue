@@ -3,11 +3,15 @@
         <div>
             <sidebar/>
         </div>
-        <div>
-            <b-card classs="card" border-variant="dark" header="Jumlah Pasien" align="center">
+        <b-card-group deck class="cardGroup">
+            <b-card border-variant="dark" class="pasienCard" header="Jumlah Pasien" >
                 <b-card-text>{{pasien}} Pasien</b-card-text>
             </b-card>
-        </div>
+            <b-card border-variant="dark" class="pemeriksaanCard" header="Jumlah Pemeriksaan" >
+                <b-card-text>{{pemeriksaan}} Pemeriksaan</b-card-text>
+            </b-card>
+        </b-card-group>
+        
     </div>
 </template>
 
@@ -20,7 +24,7 @@ export default {
     components: { sidebar },
     data() {
         return {
-            hermatologi: {
+            hematologi: {
                 jumlahPasien: 5
             },
             kimiaDarah: {
@@ -30,19 +34,29 @@ export default {
                 jumlahPasien: 3
             },
             pasien: null,
+            pemeriksaan: null
         }
     },
     created() {
         db.collection('Pasien').get().then(snap => {
             this.pasien = snap.size // will return the collection size
         });
+        db.collection('Pemeriksaan').get().then(snap => {
+            this.pemeriksaan = snap.size // will return the collection size
+        });
     },
 }
 </script>
 
-<style>
-    .card{ 
+<style scoped>
+    .pasienCard{
+        width: 10rem;
+    }
+    .pemeriksaanCard{
+        width: 15rem;
+    }
+    .cardGroup{
         margin: auto;
-        max-width: 15rem;
+        width: 30rem;
     }
 </style>
