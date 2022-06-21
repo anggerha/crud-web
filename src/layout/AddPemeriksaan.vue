@@ -185,11 +185,11 @@ export default {
     },
     methods: {
         onUpdateForm() {
-            if(this.user.daftarPemeriksaan.length !== 0){
+            if(this.user.daftarPemeriksaan.length !== 0 && this.user.namaDokter !== '' && this.user.namaRuangan !== '' && this.user.nomorTelpRuangan != '' && this.user.diagnosa !== ''){
                 db.collection('Pemeriksaan').doc(this.user.nomorOrderLab).set(this.user)
                 this.$router.push('Registrasi')
             } else {
-                this.alert = 'Pemeriksaan Tidak Boleh Kosong'
+                this.alert = 'Tidak Boleh Ada Data yang Kosong'
                 this.showAlert()
             }
             

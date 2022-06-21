@@ -105,6 +105,9 @@ export default {
         border: none;
         background-color: white;
     }
+    #button:hover{
+        color: blue;
+    }
     #email{
         margin: auto;
         width: 22rem;

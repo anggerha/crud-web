@@ -185,11 +185,28 @@
                 this.user.namaRuangan = doc.data().namaRuangan
                 this.user.nomorTelpRuangan = doc.data().nomorTelpRuangan
                 this.user.diagnosa = doc.data().diagnosa
-                this.user.daftarPemeriksaan = doc.data().daftarPemeriksaan
-                this.user.pemeriksaanKimDar = doc.data().pemeriksaanKimDar
-                this.user.pemeriksaanHema = doc.data().pemeriksaanHema
-                this.user.pemeriksaanUrin = doc.data().pemeriksaanUrin
-                this.user.pemeriksaanLain = doc.data().pemeriksaanLain
+                if(doc.data().daftarPemeriksaan.length !== 0){
+                    this.user.daftarPemeriksaan = doc.data().daftarPemeriksaan
+                    this.user.pemeriksaanKimDar = doc.data().pemeriksaanKimDar
+                    this.user.pemeriksaanHema = doc.data().pemeriksaanHema
+                    this.user.pemeriksaanUrin = doc.data().pemeriksaanUrin
+                    this.user.pemeriksaanLain = doc.data().pemeriksaanLain
+
+                    localStorage.setItem('DaftarPemeriksaan', JSON.stringify(doc.data().daftarPemeriksaan))
+                    localStorage.setItem('PemeriksaanKimDar', JSON.stringify(doc.data().pemeriksaanKimDar))
+                    localStorage.setItem('PemeriksaanHema', JSON.stringify(doc.data().pemeriksaanHema))
+                    localStorage.setItem('PemeriksaanUrin', JSON.stringify(doc.data().pemeriksaanUrin))
+                    localStorage.setItem('PemeriksaanLain', JSON.stringify(doc.data().pemeriksaanLain))
+                    localStorage.setItem('BiayaPemeriksaan', JSON.stringify(doc.data().price))
+                } else if (doc.data().daftarPemeriksaan.length === 0) {
+                    this.user.daftarPemeriksaan = JSON.parse(localStorage.getItem('DaftarPemeriksaan'))
+                    this.user.pemeriksaanKimDar = JSON.parse(localStorage.getItem('PemeriksaanKimDar'))
+                    this.user.pemeriksaanHema = JSON.parse(localStorage.getItem('PemeriksaanHema'))
+                    this.user.pemeriksaanUrin = JSON.parse(localStorage.getItem('PemeriksaanUrin'))
+                    this.user.pemeriksaanLain = JSON.parse(localStorage.getItem('PemeriksaanLain'))
+                    this.user.price = parseInt(JSON.parse(localStorage.getItem('BiayaPemeriksaan')))
+                }
+                
                 this.user.price = doc.data().price
             }).catch((error) => {
                 console.log(error)
@@ -221,14 +238,12 @@
                 this.$router.push('Registrasi')
             },
             getData() {
-                if(this.user.daftarPemeriksaan === null){
-                    this.user.daftarPemeriksaan = JSON.parse(localStorage.getItem('DaftarPemeriksaan'))
-                    this.user.pemeriksaanKimDar = JSON.parse(localStorage.getItem('PemeriksaanKimDar'))
-                    this.user.pemeriksaanHema = JSON.parse(localStorage.getItem('PemeriksaanHema'))
-                    this.user.pemeriksaanUrin = JSON.parse(localStorage.getItem('PemeriksaanUrin'))
-                    this.user.pemeriksaanLain = JSON.parse(localStorage.getItem('PemeriksaanLain'))
-                    this.user.price = parseInt(JSON.parse(localStorage.getItem('BiayaPemeriksaan')))
-                }
+                this.user.daftarPemeriksaan = JSON.parse(localStorage.getItem('DaftarPemeriksaan'))
+                this.user.pemeriksaanKimDar = JSON.parse(localStorage.getItem('PemeriksaanKimDar'))
+                this.user.pemeriksaanHema = JSON.parse(localStorage.getItem('PemeriksaanHema'))
+                this.user.pemeriksaanUrin = JSON.parse(localStorage.getItem('PemeriksaanUrin'))
+                this.user.pemeriksaanLain = JSON.parse(localStorage.getItem('PemeriksaanLain'))
+                this.user.price = parseInt(JSON.parse(localStorage.getItem('BiayaPemeriksaan')))
             },
             getRoomNumber() {
                 if (this.user.namaRuangan !== '') {
