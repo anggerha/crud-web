@@ -14,30 +14,30 @@
             <h3 class="text-center" style="margin-left:5rem;">Update Jenis Pemeriksaan</h3>
             <form @submit.prevent="onUpdateForm">
                 <div>
-                    <h3>Kimia Darah</h3>
+                    <h3>{{ lainLain.jenisPemeriksaan }}</h3>
                     <div class="form-group">
                         <label>Jenis Pemeriksaan</label>
-                        <input type="text" class="form-control" placeholder="Nama Pemeriksaan" v-model="kimiaDarah.jenisPemeriksaan" required>
+                        <input type="text" class="form-control" placeholder="Nama Pemeriksaan" v-model="lainLain.jenisPemeriksaan" required>
                     </div>
                     <div class="form-group">
                         <label>Kode Pemeriksaan</label>
-                        <input type="text" class="form-control" placeholder="Kode Pemeriksaan" v-model="kimiaDarah.kode" required>
+                        <input type="text" class="form-control" placeholder="Kode Pemeriksaan" v-model="lainLain.kode" required>
                     </div>
                     <div class="form-group">
                         <label>Satuan</label>
-                        <input type="text" class="form-control" placeholder="Satuan" v-model="kimiaDarah.satuan" required>
+                        <input type="text" class="form-control" placeholder="Satuan" v-model="lainLain.satuan" required>
                     </div>
                     <div class="form-group">
                         <label>Nilai Rujukan</label>
-                        <input type="text" class="form-control" placeholder="Nilai Rujukan" v-model="kimiaDarah.nilaiRujukan" required>
+                        <input type="text" class="form-control" placeholder="Nilai Rujukan" v-model="lainLain.nilaiRujukan" required>
                     </div>
                     <div class="form-group">
                         <label>Metode</label>
-                        <input type="text" class="form-control" placeholder="Nilai Rujukan" v-model="kimiaDarah.metode" required>
+                        <input type="text" class="form-control" placeholder="Nilai Rujukan" v-model="lainLain.metode" required>
                     </div>
                     <div class="form-group">
                         <label>Harga</label>
-                        <input type="number" class="form-control" placeholder="Nilai Rujukan" v-model="kimiaDarah.harga" required>
+                        <input type="number" class="form-control" placeholder="Nilai Rujukan" v-model="lainLain.harga" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -55,7 +55,7 @@
         name: 'UpdateDataKimiaDarah',
         data() {
             return {
-                kimiaDarah: {},
+                lainLain: {},
                 
                 dismissSecs: 2,
                 dismissCountDown: 0,
@@ -63,9 +63,9 @@
             }
         },
         created() {
-            let dbRef = db.collection('Kimia Darah').doc(this.$route.params.id);
+            let dbRef = db.collection('Lain Lain').doc(this.$route.params.id);
             dbRef.get().then((doc) => {
-                this.kimiaDarah = doc.data();
+                this.lainLain = doc.data();
             }).catch((error) => {
                 console.log(error)
             })
@@ -73,9 +73,9 @@
         methods: {
             onUpdateForm(event) {
                 event.preventDefault()
-                db.collection('Kimia Darah').doc(this.$route.params.id)
-                .update(this.kimiaDarah).then(() => {
-                    this.$router.push('KimiaDarah')
+                db.collection('Lain Lain').doc(this.$route.params.id)
+                .update(this.lainLain).then(() => {
+                    this.$router.push('LainLain')
                 }).catch(() => {
                     this.showAlert()
                 });
@@ -87,7 +87,7 @@
                 this.dismissCountDown = this.dismissSecs
             },
             kembali(){
-                this.$router.push('KimiaDarah')
+                this.$router.push('LainLain')
             }
         }
     }

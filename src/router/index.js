@@ -4,7 +4,8 @@ import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
 import KimiaDarah from '../components/KimiaDarah.vue'
 import Hematologi from '../components/Hematologi.vue'
-import ImunologiSerologi from '../components/ImunologiSerologi.vue'
+import Urinologi from '../components/Urinologi.vue'
+import LainLain from '../components/LainLain.vue'
 import Registrasi from '../components/Registrasi.vue'
 import ReviewHasil from '../components/ReviewHasil.vue'
 import PemeriksaanPasien from '../components/PemeriksaanPasien.vue'
@@ -13,6 +14,10 @@ import UpdateData from '../layout/UpdateData.vue'
 import UpdatePemeriksaan from '../layout/UpdatePemeriksaan.vue'
 import UpdateKimiaDarah from '../layout/UpdateKimiaDarah.vue'
 import UpdateHematologi from '../layout/UpdateHematologi.vue'
+import UpdateUrinologi from '../layout/UpdateUrinologi.vue'
+import UpdateLainLain from '../layout/UpdateLainLain.vue'
+import AddPemeriksaan from '../layout/AddPemeriksaan.vue'
+import DaftarPemeriksaan from '../layout/DaftarPemeriksaan.vue'
 
 Vue.use(VueRouter)
 
@@ -41,9 +46,15 @@ const routes = [
     props: true
   },
   {
-    path: '/ImunologiSerologi',
-    name: 'Imunologi Serologi',
-    component: ImunologiSerologi,
+    path: '/Urinologi',
+    name: 'Urinologi',
+    component: Urinologi,
+    props: true
+  },
+  {
+    path: '/LainLain',
+    name: 'Lain Lain',
+    component: LainLain,
     props: true
   },
   {
@@ -88,6 +99,30 @@ const routes = [
     path: '/UpdateHematologi',
     name: 'Update Hematologi',
     component: UpdateHematologi,
+    props: true
+  },
+  {
+    path: '/UpdateUrinologi',
+    name: 'Update Urinologi',
+    component: UpdateUrinologi,
+    props: true
+  },
+  {
+    path: '/UpdateLainLain',
+    name: 'Update Lain Lain',
+    component: UpdateLainLain,
+    props: true
+  },
+  {
+    path: '/AddPemeriksaan',
+    name: 'Add Pemeriksaan',
+    component: AddPemeriksaan,
+    props: true
+  },
+  {
+    path: '/DaftarPemeriksaan',
+    name: 'Daftar Pemeriksaan',
+    component: DaftarPemeriksaan,
     props: true
   },
 ]

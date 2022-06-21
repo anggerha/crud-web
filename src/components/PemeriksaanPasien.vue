@@ -21,7 +21,7 @@ import displayPemeriksaan from '../layout/DisplayPemeriksaan'
 import Sidebar from '../layout/Sidebar'
 
 export default {
-    name: 'Pemeriksaan Pasien',
+    name: 'PemeriksaanPasien',
     components: { displayPemeriksaan, Sidebar, AddPemeriksaan },
     data(){
         return{

@@ -56,7 +56,7 @@ export default {
                 {value: 'Registrasi', text: 'Registrasi'},
                 {value: 'Manajer', text: 'Manajer'},
                 {value: 'Laboran', text: 'Laboran'},
-            ]
+            ],
         }
     },
     methods: {

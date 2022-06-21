@@ -17,7 +17,11 @@
                     <h3>Hematologi</h3>
                     <div class="form-group">
                         <label>Jenis Pemeriksaan</label>
-                        <input type="text" class="form-control" v-model="hematologi.jenisPemeriksaan" required>
+                        <input type="text" class="form-control" placeholder="Nama Pemeriksaan" v-model="hematologi.jenisPemeriksaan" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kode Pemeriksaan</label>
+                        <input type="text" class="form-control" placeholder="Kode Pemeriksaan" v-model="hematologi.kode" required>
                     </div>
                     <div class="form-group">
                         <label>Satuan</label>

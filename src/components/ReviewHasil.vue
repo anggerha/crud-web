@@ -13,7 +13,7 @@
 import sidebar from '../layout/Sidebar'
 
 export default {
-    name: 'Review Hasil',
+    name: 'ReviewHasil',
     components: { sidebar }
 }
 </script>

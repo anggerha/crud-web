@@ -76,15 +76,15 @@ export default {
                     }
                 },
                 {
-                    name: "Imunologi Serologi",
+                    name: "Urinologi",
                     href: {
-                        name: "Imunologi Serologi",
+                        name: "Urinologi",
                     }
                 },
                 {
                     name: "Lain-Lain",
                     href: {
-                        name: "",
+                        name: "Lain Lain",
                     }
                 },
             ],
@@ -104,7 +104,7 @@ export default {
             });
         },
         clear(){
-                console.clear()
+                // console.clear()
             },
     }
 }

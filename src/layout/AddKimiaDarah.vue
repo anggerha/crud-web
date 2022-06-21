@@ -19,6 +19,10 @@
                         <input type="text" class="form-control" placeholder="Jenis Pemeriksaan Kimia Darah" v-model="kimiaDarah.jenisPemeriksaan" required>
                     </div>
                     <div class="form-group">
+                        <label>Kode Pemeriksaan</label>
+                        <input type="text" class="form-control" placeholder="Kode Pemeriksaan" v-model="kimiaDarah.kode" required>
+                    </div>
+                    <div class="form-group">
                         <label>Satuan</label>
                         <input type="text" class="form-control" placeholder="Satuan" v-model="kimiaDarah.satuan" required>
                     </div>
@@ -54,6 +58,7 @@ export default {
         return {
             kimiaDarah: {
                 jenisPemeriksaan: '',
+                kode: '',
                 satuan: '',
                 nilaiRujukan: '',
                 metode: '',
@@ -70,6 +75,7 @@ export default {
             event.preventDefault()
             db.collection('Kimia Darah').doc(this.kimiaDarah.jenisPemeriksaan).set(this.kimiaDarah).then(() => {
                 this.kimiaDarah.jenisPemeriksaan = '',
+                this.kimiaDarah.kode = '',
                 this.kimiaDarah.satuan = '',
                 this.kimiaDarah.nilaiRujukan = '',
                 this.kimiaDarah.metode = '',

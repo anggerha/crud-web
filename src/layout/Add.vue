@@ -25,6 +25,10 @@
                     <label>Tanggal</label>
                     <date-picker v-model="user.tanggal" value-type="format" format="YYYY-MM-DD"></date-picker>
                 </div>
+                 <div class="form-group">
+                    <label>Tempat Lahir</label>
+                    <input type="text" class="form-control" placeholder="Tempat Lahir" v-model="user.tempatLahir" required>
+                </div>
                 <div class="form-group">
                     <label>Jenis Kelamin</label>
                     <b-form-select type="text" class="form-control" placeholder="Jenis Kelamin" v-model="user.jenisKelamin" required :options="jenisKelamin"></b-form-select>
@@ -75,12 +79,13 @@ export default {
                 nomor: '',
                 namaPasien: '',
                 tanggal:'',
+                tempatLahir:'',
                 jenisKelamin:'',
                 statusPasien:'',
                 nik:'',
                 nomorJamkes:'',
                 nomorKontak:'',
-                alamatLengkap:''
+                alamatLengkap:'',
             },
             jenisKelamin: [
                 {value: 'Laki-Laki', text: 'Laki-Laki'},
@@ -104,7 +109,7 @@ export default {
     methods: {
         onFormSubmit(event) {
             event.preventDefault()
-            db.collection('Pasien').add(this.user).then(() => {
+            db.collection('Pasien').doc(this.user.nomor).set(this.user).then(() => {
                 this.user.nomor = 
                 this.user.namaPasien = ''
                 this.user.tanggal = ''
@@ -121,8 +126,10 @@ export default {
         },
         countPasien(){
             db.collection('Pasien').get().then(snap => {
-            this.user.nomor = snap.size + 1 // will return the collection size
-        });
+                var today = new Date()
+                var date = today.getFullYear()+''+(today.getMonth()+1)+''+today.getDate();
+                this.user.nomor = '0' + date + (snap.size + 1) // will return the collection size
+            });
         },
         countDownChanged(dismissCountDown) {
             this.dismissCountDown = dismissCountDown

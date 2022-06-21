@@ -30,7 +30,7 @@ export default {
             kimiaDarah: {
                 jumlahPasien: 7
             },
-            imunologiSerologi: {
+            urinologi: {
                 jumlahPasien: 3
             },
             pasien: null,

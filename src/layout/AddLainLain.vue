@@ -11,39 +11,39 @@
             <p>Tambah Pemeriksaan Gagal</p>
         </b-alert>
         <div >
-            <h3 class="text-center">Tambah Jenis Pemeriksaan Hematologi</h3>
+            <h3 class="text-center">Tambah Jenis Pemeriksaan Lain Lain</h3>
             <form @submit.prevent="onFormSubmit">
                 <div>
                     <div class="form-group">
                         <label>Jenis Pemeriksaan</label>
-                        <input type="text" class="form-control" placeholder="Jenis Pemeriksaan Hematologi" v-model="hematologi.jenisPemeriksaan" required>
+                        <input type="text" class="form-control" placeholder="Jenis Pemeriksaan Lain Lain" v-model="lainLain.jenisPemeriksaan" required>
                     </div>
                     <div class="form-group">
                         <label>Kode Pemeriksaan</label>
-                        <input type="text" class="form-control" placeholder="Kode Pemeriksaan" v-model="hematologi.kode" required>
+                        <input type="text" class="form-control" placeholder="Kode Pemeriksaan" v-model="lainLain.kode" required>
                     </div>
                     <div class="form-group">
                         <label>Satuan</label>
-                        <input type="text" class="form-control" placeholder="Satuan" v-model="hematologi.satuan" required>
+                        <input type="text" class="form-control" placeholder="Satuan" v-model="lainLain.satuan" required>
                     </div>
                     <div class="form-group">
                         <label>Nilai Rujukan</label>
-                        <input type="text" class="form-control" placeholder="Nilai Rujukan" v-model="hematologi.nilaiRujukan" required>
+                        <input type="text" class="form-control" placeholder="Nilai Rujukan" v-model="lainLain.nilaiRujukan" required>
                     </div>
                     <div class="form-group">
                         <label>Metode</label>
-                        <input type="text" class="form-control" placeholder="Nilai Rujukan" v-model="hematologi.metode" required>
+                        <input type="text" class="form-control" placeholder="Nilai Rujukan" v-model="lainLain.metode" required>
                     </div>
                     <div class="form-group">
                         <label>Harga</label>
-                        <input type="number" class="form-control" placeholder="Nilai Rujukan" v-model="hematologi.harga" required>
+                        <input type="number" class="form-control" placeholder="Nilai Rujukan" v-model="lainLain.harga" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary btn-block">Tambah</button>
                 </div>
             </form>
-            <button class="btn btn-danger btn-block" @click="$bvModal.hide('modal-ht')">Batal</button>
+            <button class="btn btn-danger btn-block" @click="$bvModal.hide('modal-ll')">Batal</button>
         </div>
     </div>
   </div>
@@ -53,10 +53,10 @@
 
 import { db } from '../components/firebase'
 export default {
-    name: 'Addhematologi',
+    name: 'AddLainLain',
     data() {
         return {
-            hematologi: {
+            lainLain: {
                 jenisPemeriksaan: '',
                 kode: '',
                 satuan: '',
@@ -73,14 +73,14 @@ export default {
     methods: {
         onFormSubmit(event) {
             event.preventDefault()
-            db.collection('Hematologi').doc(this.hematologi.jenisPemeriksaan).set(this.hematologi).then(() => {
-                this.hematologi.jenisPemeriksaan = '',
-                this.hematologi.kode = '',
-                this.hematologi.satuan = '',
-                this.hematologi.nilaiRujukan = '',
-                this.hematologi.metode = '',
-                this.hematologi.harga = null
-                this.$bvModal.hide('modal-ht')
+            db.collection('Lain Lain').doc(this.lainLain.jenisPemeriksaan).set(this.lainLain).then(() => {
+                this.lainLain.jenisPemeriksaan = '',
+                this.lainLain.kode = '',
+                this.lainLain.satuan = '',
+                this.lainLain.nilaiRujukan = '',
+                this.lainLain.metode = '',
+                this.lainLain.harga = null
+                this.$bvModal.hide('modal-ll')
             }).catch(() => {
                 this.showAlert()
             });

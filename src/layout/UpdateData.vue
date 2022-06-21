@@ -62,7 +62,7 @@
     import 'vue2-datepicker/index.css';
 
     export default {
-        name: 'Update Data',
+        name: 'UpdateData',
         components: {
             DatePicker
         },
@@ -95,12 +95,20 @@
         methods: {
             onUpdateForm(event) {
                 event.preventDefault()
-                db.collection('Pasien').doc(this.$route.params.id)
+                db.collection('Pasien').doc(this.user.nomor)
                 .update(this.user).then(() => {
                     this.$router.push('Registrasi')
                 }).catch(() => {
                     this.showAlert()
                 });
+                if(this.user.nomorOrderLab !== ''){
+                    db.collection('Pemeriksaan').doc(this.user.nomorOrderLab)
+                    .update(this.user).then(() => {
+                        this.$router.push('Registrasi')
+                    }).catch(() => {
+                        this.showAlert()
+                    });
+                }
             },
             countDownChanged(dismissCountDown) {
                 this.dismissCountDown = dismissCountDown
