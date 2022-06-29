@@ -70,7 +70,6 @@
                     <b-modal id="daftar-pemeriksaan" centered size="lg" hide-footer hide-header>
                         <daftar-pemeriksaan/>
                     </b-modal>
-                    <button style="width:min-content; float: inline-end; color: black; background-color: transparent; border-style: none;" @click="getData"><b-icon icon="arrow-clockwise"></b-icon></button>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -106,6 +105,7 @@
 import 'vue2-datepicker/index.css';
 import { db } from '../components/firebase'
 import DaftarPemeriksaan from './DaftarPemeriksaan.vue';
+import { EventBus } from '../main.js'
 
 export default {
     name: 'AddPemeriksaan',
@@ -132,7 +132,7 @@ export default {
                 nomorTelpRuangan: '',
                 diagnosa: '',
                 
-                daftarPemeriksaan: [],
+                daftarPemeriksaan:[],
                 pemeriksaanKimDar:[],
                 pemeriksaanUrin:[],
                 pemeriksaanHema:[],
@@ -209,12 +209,24 @@ export default {
             });
         },
         getData() {
-            this.user.daftarPemeriksaan = JSON.parse(localStorage.getItem('DaftarPemeriksaan'))
-            this.user.pemeriksaanKimDar = JSON.parse(localStorage.getItem('PemeriksaanKimDar'))
-            this.user.pemeriksaanHema = JSON.parse(localStorage.getItem('PemeriksaanHema'))
-            this.user.pemeriksaanUrin = JSON.parse(localStorage.getItem('PemeriksaanUrin'))
-            this.user.pemeriksaanLain = JSON.parse(localStorage.getItem('PemeriksaanLain'))
-            this.user.price = parseInt(localStorage.getItem('BiayaPemeriksaan'))
+            EventBus.$on('daftarPemeriksaan', daftarPemeriksaan => {
+                this.user.daftarPemeriksaan = daftarPemeriksaan
+            })
+            EventBus.$on('pemeriksaanKimDar', pemeriksaanKimDar => {
+                this.user.pemeriksaanKimDar = pemeriksaanKimDar
+            })
+            EventBus.$on('pemeriksaanHema', pemeriksaanHema => {
+                this.user.pemeriksaanHema = pemeriksaanHema
+            })
+            EventBus.$on('pemeriksaanUrin', pemeriksaanUrin => {
+                this.user.pemeriksaanUrin = pemeriksaanUrin
+            })
+            EventBus.$on('pemeriksaanLain', pemeriksaanLain => {
+                this.user.pemeriksaanLain = pemeriksaanLain
+            })
+            EventBus.$on('price', price => {
+                this.user.price = price
+            })
         },
         sendNomor() {
             localStorage.setItem('NomorPasien', JSON.stringify(this.user.nomor))

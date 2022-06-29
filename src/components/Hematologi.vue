@@ -35,6 +35,34 @@
                 </tbody>
             </table>
         </div>
+        <div>
+            <h3>Pasien Pemeriksaan Hematologi</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Nomor Order Lab</th>
+                        <th>Nama Pasien</th>
+                        <th>Dokter</th>
+                        <th>Ruangan</th>
+                        <th>Proses</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody v-if="dataPasien.length !== 0">
+                    <tr v-for="datapasien in dataPasien" :key="datapasien.key">
+                        <td>{{ datapasien.tanggal }}</td>
+                        <td>{{ datapasien.nomorOrderLab }}</td>
+                        <td>{{ datapasien.namaPasien }}</td>
+                        <td>{{ datapasien.namaDokter }}</td>
+                        <td>{{ datapasien.namaRuangan }}</td>
+                        <td></td>
+                        <td><b-btn :to="{name: 'Form Pemeriksaan', params: { id: datapasien.key }}" @click="sendPath" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn></td>
+                    </tr>
+                </tbody>
+                <p v-if="dataPasien.length === 0">Pemeriksaan Kosong</p>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -49,6 +77,31 @@ export default {
     data() {
         return {
             hematologis: [],
+            dataPasien: {
+                nomor: '',
+                namaPasien: '',
+                tanggal:'',
+                tempatLahir: '',
+                jenisKelamin:'',
+                statusPasien:'',
+                nik:'',
+                nomorJamkes:'',
+                nomorKontak:'',
+                alamatLengkap:'',
+
+                nomorOrderLab: '',
+                namaDokter: '',
+                namaRuangan: '',
+                nomorTelpRuangan: '',
+                diagnosa: '',
+
+                daftarPemeriksaan: [],
+                pemeriksaanKimDar:[],
+                pemeriksaanUrin:[],
+                pemeriksaanHema:[],
+                pemeriksaanLain:[],
+                price: 0
+            },
             loginAs: null
         }
     },
@@ -66,9 +119,13 @@ export default {
                 })
             });
         });
+        this.getPasienHema()
         this.getRole()
     },
     methods: {
+        sendPath() {
+            localStorage.setItem('From', 'Hema')
+        },
         getRole(){
             this.loginAs = localStorage.getItem('loginAs')
         },
@@ -82,6 +139,39 @@ export default {
             })
             }
         },
+        async getPasienHema(){
+            // let daftarPasien = db.collection('Pemeriksaan')
+            // let query = await daftarPasien.where('pemeriksaanKimDar', '!=', []).get()
+            // this.dataPasien = query.docs.map(doc => doc.data())
+            db.collection('Pemeriksaan').where('pemeriksaanHema', '!=', []).onSnapshot((snapshotChange) => {
+                this.dataPasien = []
+                snapshotChange.forEach((doc) => {
+                    this.dataPasien.push({
+                        key : doc.id,
+                        nomor : doc.data().nomor,
+                        namaPasien : doc.data().namaPasien,
+                        tanggal : doc.data().tanggal,
+                        tempatLahir : doc.data().tempatLahir,
+                        jenisKelamin : doc.data().jenisKelamin,
+                        statusPasien : doc.data().statusPasien,
+                        nik : doc.data().nik,
+                        nomorJamkes : doc.data().nomorJamkes,
+                        nomorKontak : doc.data().nomorKontak,
+                        alamatLengkap : doc.data().alamatLengkap,
+                        nomorOrderLab : doc.data().nomorOrderLab,
+                        namaDokter : doc.data().namaDokter,
+                        namaRuangan : doc.data().namaRuangan,
+                        nomorTelpRuangan : doc.data().nomorTelpRuangan,
+                        diagnosa : doc.data().diagnosa,
+                        daftarPemeriksaan : doc.data().daftarPemeriksaan,
+                        pemeriksaanKimDar : doc.data().pemeriksaanKimDar,
+                        pemeriksaanHema : doc.data().pemeriksaanHema,
+                        pemeriksaanUrin : doc.data().pemeriksaanUrin,
+                        pemeriksaanLain : doc.data().pemeriksaanLain
+                    })
+                })
+            })
+        }
     }
 }
 </script>

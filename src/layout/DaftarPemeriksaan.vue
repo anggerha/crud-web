@@ -138,12 +138,13 @@
                 </tbody>
             </table>
         </div>
-        <button @click="sendData">Selesai</button>
+        <b-button @click="sendData">Selesai</b-button>
     </div>
 </template>
 
 <script>
 import { db } from '../components/firebase';
+import { EventBus } from '../main.js'
 
 export default {
     name: 'DaftarPemeriksaan',
@@ -301,12 +302,12 @@ export default {
             }
         },
         sendData() {
-            localStorage.setItem('DaftarPemeriksaan', JSON.stringify(this.daftarPemeriksaan))
-            localStorage.setItem('PemeriksaanKimDar', JSON.stringify(this.pemeriksaanKimDar))
-            localStorage.setItem('PemeriksaanHema', JSON.stringify(this.pemeriksaanHema))
-            localStorage.setItem('PemeriksaanUrin', JSON.stringify(this.pemeriksaanUrin))
-            localStorage.setItem('PemeriksaanLain', JSON.stringify(this.pemeriksaanLain))
-            localStorage.setItem('BiayaPemeriksaan', JSON.stringify(this.price))
+            EventBus.$emit('daftarPemeriksaan', this.daftarPemeriksaan)
+            EventBus.$emit('pemeriksaanKimDar', this.pemeriksaanKimDar)
+            EventBus.$emit('pemeriksaanHema', this.pemeriksaanHema)
+            EventBus.$emit('pemeriksaanUrin', this.pemeriksaanUrin)
+            EventBus.$emit('pemeriksaanLain', this.pemeriksaanLain)
+            EventBus.$emit('price', this.price)
             this.$bvModal.hide('daftar-pemeriksaan')
         },
     }

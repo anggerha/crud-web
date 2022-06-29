@@ -63,6 +63,7 @@ export default {
                 nilaiRujukan: '',
                 metode: '',
                 harga: null,
+                status: false
             },
         
             dismissSecs: 2,

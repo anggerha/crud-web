@@ -68,7 +68,6 @@
                         <b-modal id="daftar-pemeriksaan" centered size="lg" hide-footer hide-header>
                             <daftar-pemeriksaan/>
                         </b-modal>
-                        <button style="width:min-content; float: inline-end; color: black; background-color: transparent; border-style: none;" @click="getData"><b-icon icon="arrow-clockwise"></b-icon></button>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -106,6 +105,7 @@
     import DatePicker from 'vue2-datepicker';
     import 'vue2-datepicker/index.css';
     import DaftarPemeriksaan from '../layout/DaftarPemeriksaan'
+    import { EventBus } from '../main.js'
 
     export default {
         name: 'UpdateData',
@@ -191,26 +191,20 @@
                     this.user.pemeriksaanHema = doc.data().pemeriksaanHema
                     this.user.pemeriksaanUrin = doc.data().pemeriksaanUrin
                     this.user.pemeriksaanLain = doc.data().pemeriksaanLain
-
-                    localStorage.setItem('DaftarPemeriksaan', JSON.stringify(doc.data().daftarPemeriksaan))
-                    localStorage.setItem('PemeriksaanKimDar', JSON.stringify(doc.data().pemeriksaanKimDar))
-                    localStorage.setItem('PemeriksaanHema', JSON.stringify(doc.data().pemeriksaanHema))
-                    localStorage.setItem('PemeriksaanUrin', JSON.stringify(doc.data().pemeriksaanUrin))
-                    localStorage.setItem('PemeriksaanLain', JSON.stringify(doc.data().pemeriksaanLain))
-                    localStorage.setItem('BiayaPemeriksaan', JSON.stringify(doc.data().price))
                 } else if (doc.data().daftarPemeriksaan.length === 0) {
-                    this.user.daftarPemeriksaan = JSON.parse(localStorage.getItem('DaftarPemeriksaan'))
-                    this.user.pemeriksaanKimDar = JSON.parse(localStorage.getItem('PemeriksaanKimDar'))
-                    this.user.pemeriksaanHema = JSON.parse(localStorage.getItem('PemeriksaanHema'))
-                    this.user.pemeriksaanUrin = JSON.parse(localStorage.getItem('PemeriksaanUrin'))
-                    this.user.pemeriksaanLain = JSON.parse(localStorage.getItem('PemeriksaanLain'))
-                    this.user.price = parseInt(JSON.parse(localStorage.getItem('BiayaPemeriksaan')))
+                    EventBus.$on('daftarPemeriksaan', daftarPemeriksaan => {
+                        this.user.daftarPemeriksaan = daftarPemeriksaan
+                    })
+                    EventBus.$on('pemeriksaanKimDar', pemeriksaanKimDar => {
+                        this.user.pemeriksaanKimDar = pemeriksaanKimDar
+                    })
                 }
                 
                 this.user.price = doc.data().price
             }).catch((error) => {
                 console.log(error)
             });
+            this.getData()
         },
         mounted() {
             this.$nextTick(function () {
@@ -238,12 +232,24 @@
                 this.$router.push('Registrasi')
             },
             getData() {
-                this.user.daftarPemeriksaan = JSON.parse(localStorage.getItem('DaftarPemeriksaan'))
-                this.user.pemeriksaanKimDar = JSON.parse(localStorage.getItem('PemeriksaanKimDar'))
-                this.user.pemeriksaanHema = JSON.parse(localStorage.getItem('PemeriksaanHema'))
-                this.user.pemeriksaanUrin = JSON.parse(localStorage.getItem('PemeriksaanUrin'))
-                this.user.pemeriksaanLain = JSON.parse(localStorage.getItem('PemeriksaanLain'))
-                this.user.price = parseInt(JSON.parse(localStorage.getItem('BiayaPemeriksaan')))
+                EventBus.$on('daftarPemeriksaan', daftarPemeriksaan => {
+                    this.user.daftarPemeriksaan = daftarPemeriksaan
+                })
+                EventBus.$on('pemeriksaanKimDar', pemeriksaanKimDar => {
+                    this.user.pemeriksaanKimDar = pemeriksaanKimDar
+                })
+                EventBus.$on('pemeriksaanHema', pemeriksaanHema => {
+                    this.user.pemeriksaanHema = pemeriksaanHema
+                })
+                EventBus.$on('pemeriksaanUrin', pemeriksaanUrin => {
+                    this.user.pemeriksaanUrin = pemeriksaanUrin
+                })
+                EventBus.$on('pemeriksaanLain', pemeriksaanLain => {
+                    this.user.pemeriksaanLain = pemeriksaanLain
+                })
+                EventBus.$on('price', price => {
+                    this.user.price = price
+                })
             },
             getRoomNumber() {
                 if (this.user.namaRuangan !== '') {

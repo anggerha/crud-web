@@ -12,7 +12,7 @@ Vue.use(BootstrapVueIcons)
 
 Vue.config.productionTip = false;
 
-new Vue({
+export const EventBus = new Vue({
   router,
   firebase,
   render: h => h(App)

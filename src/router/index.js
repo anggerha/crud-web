@@ -18,6 +18,7 @@ import UpdateUrinologi from '../layout/UpdateUrinologi.vue'
 import UpdateLainLain from '../layout/UpdateLainLain.vue'
 import AddPemeriksaan from '../layout/AddPemeriksaan.vue'
 import DaftarPemeriksaan from '../layout/DaftarPemeriksaan.vue'
+import FormPemeriksaan from '../layout/FormPemeriksaan.vue'
 
 Vue.use(VueRouter)
 
@@ -115,7 +116,7 @@ const routes = [
   },
   {
     path: '/AddPemeriksaan',
-    name: 'Add Pemeriksaan',
+    name: 'AddPemeriksaan',
     component: AddPemeriksaan,
     props: true
   },
@@ -125,6 +126,12 @@ const routes = [
     component: DaftarPemeriksaan,
     props: true
   },
+  {
+    path: '/FormPemeriksaan',
+    name: 'Form Pemeriksaan',
+    component: FormPemeriksaan,
+    props: true
+  }
 ]
 
 const router = new VueRouter({

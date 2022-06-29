@@ -29,7 +29,7 @@
                             <!-- <router-link :to="{name: 'Update Data', params: { id: user.key }}" class="btn btn-primary"><b-icon icon="pencil"></b-icon></router-link> -->
                             <b-btn :to="{name: 'Update Data', params: { id: user.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
                             <button v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" @click.prevent="deleteUser(user.key)" class="btn btn-danger"><b-icon icon="trash"></b-icon></button>
-                            <b-btn variant="outline-primary" :to="{name: 'Add Pemeriksaan', params: { id: user.key }}">Permintaan Pemeriksaan Laboratorium</b-btn> 
+                            <b-btn variant="outline-primary" :to="{name: 'AddPemeriksaan', params: { id: user.key }}">Permintaan Pemeriksaan Laboratorium</b-btn> 
                         </td>
                     </tr>
                 </tbody>
@@ -47,13 +47,6 @@
             return {
                 Users: [],
                 loginAs: '',
-                daftarPemeriksaan: [],
-                price: 0,
-
-                pemeriksaanKimDar:[],
-                pemeriksaanUrin:[],
-                pemeriksaanHema:[],
-                pemeriksaanLain:[],
             }
         },
         created() {
@@ -75,7 +68,6 @@
                 });
             });
             this.getRole()
-            this.refreshData()
         },
         methods: {
             deleteUser(id){
@@ -89,14 +81,6 @@
             getRole(){
                 this.loginAs = localStorage.getItem('loginAs')
             },
-            refreshData(){
-                localStorage.setItem('DaftarPemeriksaan', JSON.stringify(this.daftarPemeriksaan))
-                localStorage.setItem('BiayaPemeriksaan', JSON.stringify(this.price))
-                localStorage.setItem('PemeriksaanKimDar', JSON.stringify(this.pemeriksaanKimDar))
-                localStorage.setItem('PemeriksaanHema', JSON.stringify(this.pemeriksaanHema))
-                localStorage.setItem('PemeriksaanUrin', JSON.stringify(this.pemeriksaanUrin))
-                localStorage.setItem('PemeriksaanLain', JSON.stringify(this.pemeriksaanLain))
-            }
         },
     }
 </script>
