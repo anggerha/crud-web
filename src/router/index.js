@@ -19,6 +19,7 @@ import UpdateLainLain from '../layout/UpdateLainLain.vue'
 import AddPemeriksaan from '../layout/AddPemeriksaan.vue'
 import DaftarPemeriksaan from '../layout/DaftarPemeriksaan.vue'
 import FormPemeriksaan from '../layout/FormPemeriksaan.vue'
+import PreReview from '../layout/PreReview.vue'
 
 Vue.use(VueRouter)
 
@@ -130,6 +131,12 @@ const routes = [
     path: '/FormPemeriksaan',
     name: 'Form Pemeriksaan',
     component: FormPemeriksaan,
+    props: true
+  },
+  {
+    path: '/PreReview',
+    name: 'PreReview',
+    component: PreReview,
     props: true
   }
 ]

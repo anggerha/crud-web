@@ -11,7 +11,7 @@
                 <p>Tambah Pemeriksaan Gagal</p>
             </b-alert>
             <div >
-                <h3 class="text-center">Tambah Jenis Pemeriksaan Kimia Darah</h3>
+                <h3 class="text-center">Tambah Jenis Pemeriksaan Urinologi</h3>
                 <form @submit.prevent="onFormSubmit">
                     <div>
                         <div class="form-group">
@@ -32,11 +32,11 @@
                         </div>
                         <div class="form-group">
                             <label>Metode</label>
-                            <input type="text" class="form-control" placeholder="Nilai Rujukan" v-model="urinologi.metode" required>
+                            <input type="text" class="form-control" placeholder="Metode" v-model="urinologi.metode" required>
                         </div>
                         <div class="form-group">
                             <label>Harga</label>
-                            <input type="number" class="form-control" placeholder="Nilai Rujukan" v-model="urinologi.harga" required>
+                            <input type="number" class="form-control" placeholder="Harga" v-model="urinologi.harga" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -62,7 +62,8 @@ export default {
                 nilaiRujukan: '',
                 metode: '',
                 harga: null,
-                status: false
+                status: false,
+                hasil: ''
             },
         
             dismissSecs: 2,

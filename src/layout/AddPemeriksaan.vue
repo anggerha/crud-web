@@ -29,12 +29,16 @@
                         <input type="text" class="form-control" placeholder="Nama Pasien" v-model="user.namaPasien" disabled required>
                     </div>
                     <div class="form-group">
+                        <label>Tanggal Order</label>
+                        <input type="text" class="form-control" v-model="user.tanggal" value-type="format" format="YYYY-MM-DD" required disabled>
+                    </div>
+                    <div class="form-group">
                         <label>Tempat Lahir</label>
                         <input type="text" class="form-control" placeholder="Tempat Lahir" v-model="user.tempatLahir" required disabled>
                     </div>
                     <div class="form-group">
-                        <label>Tanggal</label>
-                        <input type="text" class="form-control" v-model="user.tanggal" value-type="format" format="YYYY-MM-DD" required disabled>
+                        <label>Tanggal Lahir</label>
+                        <input type="text" class="form-control" v-model="user.tanggalLahir" value-type="format" format="YYYY-MM-DD" required disabled>
                     </div>
                     <div class="form-group">
                         <label>Jenis Kelamin</label>
@@ -118,6 +122,7 @@ export default {
                 nomor: '',
                 namaPasien: '',
                 tanggal:'',
+                tanggalLahir: '',
                 tempatLahir: '',
                 jenisKelamin:'',
                 statusPasien:'',
@@ -164,6 +169,7 @@ export default {
             this.user.namaPasien = doc.data().namaPasien
             this.user.tanggal = doc.data().tanggal
             this.user.tempatLahir = doc.data().tempatLahir
+            this.user.tanggalLahir = doc.data().tanggalLahir
             this.user.jenisKelamin = doc.data().jenisKelamin
             this.user.statusPasien = doc.data().statusPasien
             this.user.nik = doc.data().nik
@@ -192,7 +198,6 @@ export default {
                 this.alert = 'Tidak Boleh Ada Data yang Kosong'
                 this.showAlert()
             }
-            
         },
         countDownChanged(dismissCountDown) {
             this.dismissCountDown = dismissCountDown

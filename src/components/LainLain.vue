@@ -60,8 +60,8 @@
                         <td><b-btn :to="{name: 'Form Pemeriksaan', params: { id: datapasien.key }}" @click="sendPath" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn></td>
                     </tr>
                 </tbody>
-                <p v-if="dataPasien.length === 0">Pemeriksaan Kosong</p>
             </table>
+            <p v-if="dataPasien.length === 0">Pemeriksaan Kosong</p>
         </div>
     </div>
 </template>

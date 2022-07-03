@@ -247,7 +247,7 @@ export default {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
-    color: #03e9f4;
+    color: white;
     font-size: 16px;
     text-decoration: none;
     text-transform: uppercase;
@@ -258,7 +258,7 @@ export default {
     }
 
     .login-box a:hover {
-    background: #03e9f4;
+    background: #ffffff;
     color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 5px #03e9f4,
@@ -277,7 +277,7 @@ export default {
     left: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #03e9f4);
+    background: linear-gradient(90deg, transparent, #ffffff);
     animation: btn-anim1 1s linear infinite;
     }
 
@@ -295,7 +295,7 @@ export default {
     right: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(180deg, transparent, #03e9f4);
+    background: linear-gradient(180deg, transparent, #ffffff);
     animation: btn-anim2 1s linear infinite;
     animation-delay: .25s
     }
@@ -314,7 +314,7 @@ export default {
     right: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(270deg, transparent, #03e9f4);
+    background: linear-gradient(270deg, transparent, #ffffff);
     animation: btn-anim3 1s linear infinite;
     animation-delay: .5s
     }
@@ -333,7 +333,7 @@ export default {
     left: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(360deg, transparent, #03e9f4);
+    background: linear-gradient(360deg, transparent, #ffffff);
     animation: btn-anim4 1s linear infinite;
     animation-delay: .75s
     }

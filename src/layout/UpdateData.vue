@@ -22,8 +22,16 @@
                     <input type="text" class="form-control" placeholder="Nama Pasien" v-model="user.namaPasien" required>
                 </div>
                 <div class="form-group">
-                    <label>Tanggal</label>
-                    <date-picker value-type="format" format="YYYY-MM-DD" v-model="user.tanggal"></date-picker>
+                    <label>Tanggal Order</label>
+                    <date-picker v-model="user.tanggal" value-type="format" format="YYYY-MM-DD"></date-picker>
+                </div>
+                <div class="form-group">
+                    <label>Tempat Lahir</label>
+                    <input type="text" class="form-control" placeholder="Tempat Lahir" v-model="user.tempatLahir" required>
+                </div>
+                <div class="form-group">
+                    <label>Tanggal Lahir</label>
+                    <date-picker v-model="user.tanggalLahir" value-type="format" format="YYYY-MM-DD"></date-picker>
                 </div>
                 <div class="form-group">
                     <label>Jenis Kelamin</label>

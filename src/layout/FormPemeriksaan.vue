@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <button class="btn btn-danger btn-block" @click="kembali" style="width:min-content; float: right;">Kembali</button>
         <h2>Input Hasil Laboratorium {{user.nomorOrderLab}}</h2>
         <div id="top">
@@ -7,7 +7,7 @@
                 <td id="left">
                     <tr>Nomor RM: {{user.nomor}}</tr>
                     <tr>Nama Pasien: {{user.namaPasien}}</tr>
-                    <tr>Tanggal Lahir: {{user.tanggal}}</tr>
+                    <tr>Tanggal Lahir: {{user.tanggalLahir}}</tr>
                     <tr>Status: {{user.statusPasien}}</tr>
                 </td>
                 <td id="right">
@@ -15,13 +15,13 @@
                     <tr>Waktu Order: {{user.tanggal}}</tr>
                     <tr>Dokter Pengirim: {{user.namaDokter}}</tr>
                     <tr>Ruangan: {{user.namaRuangan}}</tr>
-                    <tr>Kontak: {{user.nomorTelp}}</tr>
+                    <tr>Kontak: {{user.nomorKontak}}</tr>
                     <tr>Diagnosa: {{user.diagnosa}}</tr>
                 </td>
             </tr>
         </div>
-        <div >
-            <table id="table">
+        <div>
+            <table id="table" class="table table-striped">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -36,48 +36,51 @@
                 <tbody v-if="from === 'KimDar'">
                     <tr v-for="pemeriksaankimdar in user.pemeriksaanKimDar" :key="pemeriksaankimdar.key">
                         <td></td>
-                        <td></td>
+                        <td>Kimia Darah</td>
                         <td>{{pemeriksaankimdar.jenisPemeriksaan}}</td>
-                        <td><b-form-input id="hasil" v-model="hasil" placeholder="Hasil"></b-form-input></td>
+                        <td><b-form-input id="hasil" v-model="pemeriksaankimdar.hasil" placeholder="Hasil"></b-form-input></td>
                         <td>{{pemeriksaankimdar.satuan}}</td>
                         <td>{{pemeriksaankimdar.nilaiRujukan}}</td>
-                        <td><b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value=true unchecked-value=false></b-form-checkbox></td>
+                        <td><b-form-checkbox v-model="pemeriksaankimdar.status" value=true unchecked-value=false></b-form-checkbox></td>
                     </tr>
                 </tbody>
                 <tbody v-if="from === 'Hema'">
                     <tr v-for="pemeriksaanhema in user.pemeriksaanHema" :key="pemeriksaanhema.key">
                         <td></td>
-                        <td></td>
+                        <td>Hematologi</td>
                         <td>{{pemeriksaanhema.jenisPemeriksaan}}</td>
-                        <td><b-form-input id="hasil" v-model="hasil" placeholder="Hasil"></b-form-input></td>
+                        <td><b-form-input id="hasil" v-model="pemeriksaanhema.hasil" placeholder="Hasil"></b-form-input></td>
                         <td>{{pemeriksaanhema.satuan}}</td>
                         <td>{{pemeriksaanhema.nilaiRujukan}}</td>
-                        <td><b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value=true unchecked-value=false></b-form-checkbox></td>
+                        <td><b-form-checkbox v-model="pemeriksaanhema.status" value=true unchecked-value=false></b-form-checkbox></td>
                     </tr>
                 </tbody>
                 <tbody v-if="from === 'Urin'">
                     <tr v-for="pemeriksaanurin in user.pemeriksaanUrin" :key="pemeriksaanurin.key">
                         <td></td>
-                        <td></td>
+                        <td>Urinologi</td>
                         <td>{{pemeriksaanurin.jenisPemeriksaan}}</td>
-                        <td><b-form-input id="hasil" v-model="hasil" placeholder="Hasil"></b-form-input></td>
+                        <td><b-form-input id="hasil" v-model="pemeriksaanurin.hasil" placeholder="Hasil"></b-form-input></td>
                         <td>{{pemeriksaanurin.satuan}}</td>
                         <td>{{pemeriksaanurin.nilaiRujukan}}</td>
-                        <td><b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value=true unchecked-value=false></b-form-checkbox></td>
+                        <td><b-form-checkbox v-model="pemeriksaanurin.status" value=true unchecked-value=false></b-form-checkbox></td>
                     </tr>
                 </tbody>
                 <tbody v-if="from === 'Lain'">
                     <tr v-for="pemeriksaanlain in user.pemeriksaanLain" :key="pemeriksaanlain.key">
                         <td></td>
-                        <td></td>
+                        <td>Lain Lain</td>
                         <td>{{pemeriksaanlain.jenisPemeriksaan}}</td>
-                        <td><b-form-input id="hasil" v-model="hasil" placeholder="Hasil"></b-form-input></td>
+                        <td><b-form-input id="hasil" v-model="pemeriksaanlain.hasil" placeholder="Hasil"></b-form-input></td>
                         <td>{{pemeriksaanlain.satuan}}</td>
                         <td>{{pemeriksaanlain.nilaiRujukan}}</td>
-                        <td><b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value=true unchecked-value=false></b-form-checkbox></td>
+                        <td><b-form-checkbox v-model="pemeriksaanlain.status" value=true unchecked-value=false></b-form-checkbox></td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div>
+            <b-btn id="reviewHasil" variant="outline-primary" :to="{name: 'PreReview', params: { id: this.user.id }}" @click="addData">Review Hasil</b-btn> 
         </div>
     </div>
 </template>
@@ -90,9 +93,11 @@ export default {
     data() {
         return {
             user: {
+                id: '',
                 nomor: '',
                 namaPasien: '',
                 tanggal:'',
+                tanggalLahir: '',
                 tempatLahir: '',
                 jenisKelamin:'',
                 statusPasien:'',
@@ -114,21 +119,21 @@ export default {
                 pemeriksaanLain:[],
                 price: 0
             },
-            hasil: '',
             pemeriksaanKimDar: [],
             pemeriksaanHema: [],
             pemeriksaanUrin: [],
             pemeriksaanLain: [],
-            status: false,
             from: ''
         }
     },
     created() {
         let dbRef = db.collection('Pemeriksaan').doc(this.$route.params.id);
         dbRef.get().then((doc) => {
+            this.user.id = doc.id
             this.user.nomor = doc.data().nomor
             this.user.namaPasien = doc.data().namaPasien
             this.user.tanggal = doc.data().tanggal
+            this.user.tanggalLahir = doc.data().tanggalLahir
             this.user.tempatLahir = doc.data().tempatLahir
             this.user.jenisKelamin = doc.data().jenisKelamin
             this.user.statusPasien = doc.data().statusPasien
@@ -170,6 +175,9 @@ export default {
                 this.$router.push('LainLain')
             }
         },
+        addData() {
+            db.collection('PreReview').doc(this.user.nomorOrderLab).set(this.user)
+        }
     }
 }
 </script>
@@ -188,10 +196,21 @@ h2{
     text-align: left;
 }
 #table{
-    border: 1px solid black;
     width: 100%;
 }
 #hasil{
     border: none;
+}
+table {
+    counter-reset: row-num - 1;
+}
+table tr {
+    counter-increment: row-num;
+}
+table tr td:first-child::before {
+    content: counter(row-num);
+}
+#reviewHasil{
+    margin-top: 2rem;
 }
 </style>
