@@ -19,6 +19,10 @@
                         <input type="text" class="form-control" v-model="user.nomor" disabled required>
                     </div>
                     <div class="form-group">
+                        <label>Nomor Order Laboratorium</label>
+                        <input type="text" class="form-control" v-model="user.nomorOrderLab" disabled required>
+                    </div>
+                    <div class="form-group">
                         <label>Nama Pasien</label>
                         <input type="text" class="form-control" placeholder="Nama Pasien" v-model="user.namaPasien" required>
                     </div>
@@ -86,13 +90,12 @@
                                     <td>{{ daftarpemeriksaan.metode }}</td>
                                     <td>Rp. {{ daftarpemeriksaan.harga }}</td>
                                 </tr>
-                                <tr>
-                                    <td><p>Total: {{user.price}}</p></td>
-                                </tr>
                             </tbody>
                         </table>
                         <p v-if="user.daftarPemeriksaan.length === 0"> Tidak Ada Pemeriksaan </p>
                     </div>
+                    <p v-if="user.price !== 0">Total: Rp. {{user.price}}</p>
+                    <p v-if="user.price === 0">Total: {{user.price}}</p>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block" @click="onUpdateForm">Update</button>
                     </div>
@@ -147,8 +150,6 @@
                 statusPasien:[
                     {value: 'Umum', text: 'Umum'},
                     {value: 'BPJS', text: 'BPJS'},
-                    {value: 'Asuransi', text: 'Asuransi'},
-                    {value: 'MCU', text: 'MCU'}
                 ],
                 namaDokter: [
                     {value: 'dr. Arifoel Hajat, Sp.PK', text: 'dr. Arifoel Hajat, Sp.PK'},
@@ -157,10 +158,8 @@
                     {value: 'dr. Fitry Hamka, Sp.PK', text: 'dr. Fitry Hamka, Sp.PK'},
                 ],
                 namaRuangan:[
-                    {value: 'Mawar', text: 'Mawar'},
-                    {value: 'Melati', text: 'Melati'},
-                    {value: 'Singkong', text: 'Singkong'},
-                    {value: 'Edelweis', text: 'Edelweis'},
+                    {value: 'Umum', text: 'Umum'},
+                    {value: 'KIA', text: 'KIA'},
                 ],
                 dismissSecs: 2,
                 dismissCountDown: 0,
@@ -253,14 +252,10 @@
             },
             getRoomNumber() {
                 if (this.user.namaRuangan !== '') {
-                    if (this.user.namaRuangan === 'Mawar'){
-                        this.user.nomorTelpRuangan = '1234'
-                    } else if (this.user.namaRuangan === 'Melati'){
-                        this.user.nomorTelpRuangan = '5678'
-                    } else if (this.user.namaRuangan === 'Singkong') {
-                        this.user.nomorTelpRuangan = '2345'
-                    } else if (this.user.namaRuangan === 'Edelweis') {
-                        this.user.nomorTelpRuangan = '6789'
+                    if (this.user.namaRuangan === 'Umum'){
+                        this.user.nomorTelpRuangan = '110'
+                    } else if (this.user.namaRuangan === 'KIA'){
+                        this.user.nomorTelpRuangan = '111'
                     }
                 } else {
                     this.user.nomorTelpRuangan = ''

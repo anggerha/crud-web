@@ -46,8 +46,8 @@
                     <input type="text" class="form-control" minlength="16" maxlength="16" onkeypress="return event.charCode >= 48 && event.charCode <=57" placeholder="Nomor Induk Kependudukan" v-model="user.nik" required>
                 </div>
                 <div class="form-group">
-                    <label>Nomor Jamkes/BPJS/Asuransi</label>
-                    <input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <=57" placeholder="Nomor Jamkes/BPJS/Asuransi" v-model="user.nomorJamkes" required>
+                    <label>Nomor BPJS</label>
+                    <input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <=57" placeholder="Nomor Jamkes/BPJS/Asuransi" v-model="user.nomorJamkes">
                 </div>
                 <div class="form-group">
                     <label>Nomor Kontak</label>
@@ -99,8 +99,6 @@ export default {
             statusPasien:[
                 {value: 'Umum', text: 'Umum'},
                 {value: 'BPJS', text: 'BPJS'},
-                {value: 'Asuransi', text: 'Asuransi'},
-                {value: 'MCU', text: 'MCU'}
             ],
 
             dismissSecs: 2,

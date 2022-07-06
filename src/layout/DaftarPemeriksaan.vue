@@ -233,7 +233,8 @@ export default {
                 satuan: snapshot.data().satuan,
                 nilaiRujukan: snapshot.data().nilaiRujukan,
                 metode: snapshot.data().metode,
-                harga: snapshot.data().harga
+                harga: snapshot.data().harga,
+                prosesKimDar: 'Proses'
             })
             this.price = this.price + parseInt(snapshot.data().harga)
         },
@@ -251,7 +252,8 @@ export default {
                 satuan: snapshot.data().satuan,
                 nilaiRujukan: snapshot.data().nilaiRujukan,
                 metode: snapshot.data().metode,
-                harga: snapshot.data().harga
+                harga: snapshot.data().harga,
+                prosesHema: 'Proses'
             })
             this.price = this.price + parseInt(snapshot.data().harga)
         },
@@ -269,7 +271,8 @@ export default {
                 satuan: snapshot.data().satuan,
                 nilaiRujukan: snapshot.data().nilaiRujukan,
                 metode: snapshot.data().metode,
-                harga: snapshot.data().harga
+                harga: snapshot.data().harga,
+                prosesUrin: 'Proses'
             })
             this.price = this.price + parseInt(snapshot.data().harga)
         },
@@ -287,7 +290,8 @@ export default {
                 satuan: snapshot.data().satuan,
                 nilaiRujukan: snapshot.data().nilaiRujukan,
                 metode: snapshot.data().metode,
-                harga: snapshot.data().harga
+                harga: snapshot.data().harga,
+                prosesLain: 'Proses'
             })
             this.price = this.price + parseInt(snapshot.data().harga)
         },

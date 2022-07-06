@@ -117,13 +117,14 @@ export default {
                 pemeriksaanUrin:[],
                 pemeriksaanHema:[],
                 pemeriksaanLain:[],
-                price: 0
+                price: 0,
             },
             pemeriksaanKimDar: [],
             pemeriksaanHema: [],
             pemeriksaanUrin: [],
             pemeriksaanLain: [],
-            from: ''
+            from: '',
+            proses: ''
         }
     },
     created() {
@@ -152,6 +153,7 @@ export default {
             this.user.pemeriksaanUrin = doc.data().pemeriksaanUrin
             this.user.pemeriksaanLain = doc.data().pemeriksaanLain
             this.user.price = doc.data().price
+            this.user.proses = doc.data().proses
 
             this.pemeriksaanKimDar = doc.data().pemeriksaanKimDar
             this.pemeriksaanHema = doc.data().pemeriksaanHema

@@ -10,6 +10,9 @@
             <b-card border-variant="dark" class="pemeriksaanCard" header="Jumlah Pemeriksaan" >
                 <b-card-text>{{pemeriksaan}} Pemeriksaan</b-card-text>
             </b-card>
+            <b-card border-variant="dark" class="reviewHasilCard" header="Jumlah Pemeriksaan" >
+                <b-card-text>{{reviewHasil}} Review Hasil</b-card-text>
+            </b-card>
         </b-card-group>
         
     </div>
@@ -34,7 +37,8 @@ export default {
                 jumlahPasien: 3
             },
             pasien: null,
-            pemeriksaan: null
+            pemeriksaan: null,
+            reviewHasil: null
         }
     },
     created() {
@@ -43,6 +47,9 @@ export default {
         });
         db.collection('Pemeriksaan').get().then(snap => {
             this.pemeriksaan = snap.size // will return the collection size
+        });
+        db.collection('ReviewHasil').get().then(snap => {
+            this.reviewHasil = snap.size // will return the collection size
         });
     },
 }
@@ -55,8 +62,10 @@ export default {
     .pemeriksaanCard{
         width: 15rem;
     }
+    .reviewHasilCard{
+        width: 20rem;
+    }
     .cardGroup{
         margin: auto;
-        width: 30rem;
     }
 </style>

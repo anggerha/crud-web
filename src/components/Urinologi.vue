@@ -2,7 +2,7 @@
     <div>
         <sidebar/>
         <div>
-            <b-btn v-if="loginAs === 'Registrasi' || loginAs === 'Laboran'" id="tambahBtn" variant="outline-primary" v-b-modal.modal-is>Tambah <b-icon icon="plus-circle"></b-icon> </b-btn>
+            <b-btn v-if="loginAs === 'Manajer'" id="tambahBtn" variant="outline-primary" v-b-modal.modal-is>Tambah <b-icon icon="plus-circle"></b-icon> </b-btn>
             <b-modal id="modal-is" centered size="md" hide-footer hide-header>
                 <add-urinologi/>
             </b-modal>
@@ -28,8 +28,8 @@
                         <td>{{ urinologi.metode }}</td>
                         <td>Rp. {{ urinologi.harga }}</td>
                         <td>
-                            <b-btn :to="{name: 'Update Urinologi', params: { id: urinologi.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
-                            <button v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" @click.prevent="deleteUser(urinologi.key)" class="btn btn-danger"><b-icon icon="trash"></b-icon></button>
+                            <b-btn v-if="loginAs === 'Manajer'" :to="{name: 'Update Urinologi', params: { id: urinologi.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
+                            <button v-if="loginAs === 'Manajer'" @click.prevent="deleteUser(urinologi.key)" class="btn btn-danger"><b-icon icon="trash"></b-icon></button>
                         </td>
                     </tr>
                 </tbody>
@@ -56,7 +56,7 @@
                         <td>{{ datapasien.namaPasien }}</td>
                         <td>{{ datapasien.namaDokter }}</td>
                         <td>{{ datapasien.namaRuangan }}</td>
-                        <td></td>
+                        <td>{{ datapasien.pemeriksaanUrin[0].prosesUrin }}</td>
                         <td><b-btn :to="{name: 'Form Pemeriksaan', params: { id: datapasien.key }}" @click="sendPath" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn></td>
                     </tr>
                 </tbody>
@@ -100,7 +100,8 @@ export default {
                 pemeriksaanUrin:[],
                 pemeriksaanHema:[],
                 pemeriksaanLain:[],
-                price: 0
+                price: 0,
+                proses: ''
             },
             loginAs: null
         }
@@ -163,6 +164,7 @@ export default {
                         namaRuangan : doc.data().namaRuangan,
                         nomorTelpRuangan : doc.data().nomorTelpRuangan,
                         diagnosa : doc.data().diagnosa,
+                        proses : doc.data().proses,
                         daftarPemeriksaan : doc.data().daftarPemeriksaan,
                         pemeriksaanKimDar : doc.data().pemeriksaanKimDar,
                         pemeriksaanHema : doc.data().pemeriksaanHema,

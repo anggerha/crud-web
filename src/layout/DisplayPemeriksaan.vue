@@ -10,7 +10,6 @@
                         <th>Nama Pasien</th>
                         <th>Dokter</th>
                         <th>Ruangan</th>
-                        <th>Proses</th>
                         <th>Opsi</th>
                     </tr>
                 </thead>
@@ -22,15 +21,14 @@
                         <td>{{ user.namaPasien}}</td>
                         <td>{{ user.namaDokter }}</td>
                         <td>{{ user.namaRuangan }}</td>
-                        <td>Proses</td>
                         <td>
-                            <b-btn :to="{name: 'Update Pemeriksaan', params: { id: user.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
+                            <b-btn v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" :to="{name: 'Update Pemeriksaan', params: { id: user.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
                             <button v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" @click.prevent="deleteUser(user.nomorOrderLab)" class="btn btn-danger"><b-icon icon="trash"></b-icon></button>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <h1 v-if="UsersPemeriksaan.length === 0">Belum Ada Data Pasien</h1>
+            <h3 v-if="UsersPemeriksaan.length === 0">Belum Ada Pemeriksaan</h3>
         </div>
     </div>
 </template>
@@ -64,6 +62,7 @@
                         namaRuangan: doc.data().namaRuangan,
                         nomorTelpRuangan: doc.data().nomorTelpRuangan,
                         diagnosa: doc.data().diagnosa,
+                        proses: doc.data().proses,
                     })
                 });
             });
@@ -73,6 +72,18 @@
             deleteUser(nomorOrderLab){
               if (window.confirm("Konfirmasi menghapus pemeriksaan pasien?")) {
                 db.collection('Pemeriksaan').doc(nomorOrderLab).delete().then(() => {})
+                .catch((error) => {
+                    console.error(error);
+                })
+                db.collection('PreReview').doc(nomorOrderLab).delete().then(() => {})
+                .catch((error) => {
+                    console.error(error);
+                })
+                db.collection('ReviewHasil').where('nomorOrderLab', '==', nomorOrderLab).get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        doc.ref.delete();
+                    })
+                })
                 .catch((error) => {
                     console.error(error);
                 })

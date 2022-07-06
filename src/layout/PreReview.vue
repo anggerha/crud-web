@@ -69,10 +69,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <div>
-                    <h3 style="float:left">Catatan</h3>
-                    <b-form-textarea v-model="user.catatan" placeholder="Catatan"></b-form-textarea>
-                </div>
                 <b-button id="simpanHasil" variant="outline-primary" @click="addData">Simpan Hasil</b-button>
             </div>
         </div>
@@ -112,9 +108,11 @@ export default {
                 pemeriksaanHema:[],
                 pemeriksaanLain:[],
                 price: 0,
-                catatan:'',
-                from: ''
+                from: '',
+                review: false,
+                proses: ''
             },
+            pemeriksaanKimDar: []
         }
     },
     created() {
@@ -144,13 +142,15 @@ export default {
             this.user.pemeriksaanUrin = doc.data().pemeriksaanUrin
             this.user.pemeriksaanLain = doc.data().pemeriksaanLain
             this.user.price = doc.data().price
+            this.user.proses = doc.data().proses
 
-            this.pemeriksaanKimDar = doc.data().pemeriksaanKimDar
-            this.pemeriksaanHema = doc.data().pemeriksaanHema
-            this.pemeriksaanUrin = doc.data().pemeriksaanUrin
-            this.pemeriksaanLain = doc.data().pemeriksaanLain
+            this.user.pemeriksaanKimDar = doc.data().pemeriksaanKimDar
+            this.user.pemeriksaanHema = doc.data().pemeriksaanHema
+            this.user.pemeriksaanUrin = doc.data().pemeriksaanUrin
+            this.user.pemeriksaanLain = doc.data().pemeriksaanLain
 
             this.user.from = localStorage.getItem('From')
+
         }).catch((error) => {
             console.log(error)
         });
@@ -168,8 +168,34 @@ export default {
             }
         },
         addData() {
-            db.collection('ReviewHasil').doc(this.user.nomorOrderLab).set(this.user)
-            this.$router.push('/Home')
+            db.collection('ReviewHasil').get().then(snap => {
+                if(this.user.from === 'KimDar'){
+                    this.user.pemeriksaanKimDar[0].prosesKimDar = 'Menunggu Validasi'
+                    const reviewID = 'KD-' + this.user.nomorOrderLab + (snap.size + 1);
+                    db.collection('ReviewHasil').doc(reviewID).set(this.user)
+                    db.collection('Pemeriksaan').doc(this.user.nomorOrderLab).update(this.user)
+                    this.$router.push('/ReviewHasil')
+                } else if (this.user.from === 'Hema'){
+                    this.user.pemeriksaanHema[0].prosesHema = 'Menunggu Validasi'
+                    const reviewID = 'HM-' + this.user.nomorOrderLab + (snap.size + 1)
+                    db.collection('ReviewHasil').doc(reviewID).set(this.user)
+                    db.collection('Pemeriksaan').doc(this.user.nomorOrderLab).update(this.user)
+                    this.$router.push('/ReviewHasil')
+                } else if (this.user.from === 'Urin'){
+                    this.user.pemeriksaanUrin[0].prosesUrin = 'Menunggu Validasi'
+                    const reviewID = 'UR-' + this.user.nomorOrderLab + (snap.size + 1)
+                    db.collection('ReviewHasil').doc(reviewID).set(this.user)
+                    db.collection('Pemeriksaan').doc(this.user.nomorOrderLab).update(this.user)
+                    this.$router.push('/ReviewHasil')
+                } else if (this.user.from === 'Lain'){
+                    this.user.pemeriksaanLain[0].prosesLain = 'Menunggu Validasi'
+                    const reviewID = 'LL-' + this.user.nomorOrderLab + (snap.size + 1)
+                    db.collection('ReviewHasil').doc(reviewID).set(this.user)
+                    db.collection('Pemeriksaan').doc(this.user.nomorOrderLab).update(this.user)
+                    this.$router.push('/ReviewHasil')
+                }
+            });
+            
         }
     }
 }

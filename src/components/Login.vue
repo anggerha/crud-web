@@ -26,7 +26,7 @@
             <form>
                 <div class="user-box">
                     <input type="text" v-model="email" name="" required="">
-                    <label>Username</label>
+                    <label>Email</label>
                 </div>
                 <div class="user-box">
                     <input type="password" v-model="password" name="" required="">

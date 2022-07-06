@@ -11,7 +11,6 @@
                         <th>Jenis Kelamin</th>
                         <th>Status</th>
                         <th>Kontak</th>
-                        <th>Cetak</th>
                         <th>Opsi</th>
                     </tr>
                 </thead>
@@ -24,17 +23,16 @@
                         <td>{{ user.jenisKelamin }}</td>
                         <td>{{ user.statusPasien }}</td>
                         <td>{{ user.nomorKontak }}</td>
-                        <td>Opsi Cetak belum tersedia</td>
                         <td>
                             <!-- <router-link :to="{name: 'Update Data', params: { id: user.key }}" class="btn btn-primary"><b-icon icon="pencil"></b-icon></router-link> -->
-                            <b-btn :to="{name: 'Update Data', params: { id: user.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
+                            <b-btn v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" :to="{name: 'Update Data', params: { id: user.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
                             <button v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" @click.prevent="deleteUser(user.key)" class="btn btn-danger"><b-icon icon="trash"></b-icon></button>
-                            <b-btn variant="outline-primary" :to="{name: 'AddPemeriksaan', params: { id: user.key }}">Permintaan Pemeriksaan Laboratorium</b-btn> 
+                            <b-btn v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" variant="outline-primary" :to="{name: 'AddPemeriksaan', params: { id: user.key }}">Permintaan Pemeriksaan Laboratorium</b-btn> 
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <h1 v-if="Users.length === 0">Belum Ada Data Pasien</h1>
+            <h3 v-if="Users.length === 0">Belum Ada Data Pasien</h3>
         </div>
     </div>
 </template>

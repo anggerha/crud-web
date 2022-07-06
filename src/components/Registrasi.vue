@@ -51,8 +51,9 @@ export default {
     border: none;
 }
 #daftarPemeriksaan{
-    border-top: 2px grey dotted;
+    border-top: 10px grey solid;
     padding: 3rem;
     margin-top: 5rem;
 }
+
 </style>

@@ -2,7 +2,7 @@
     <div>
         <sidebar/>
         <div>
-            <b-btn v-if="loginAs === 'Registrasi' || loginAs === 'Laboran'" id="tambahBtn" variant="outline-primary" v-b-modal.modal-kd>Tambah <b-icon icon="plus-circle"></b-icon> </b-btn>
+            <b-btn v-if="loginAs === 'Manajer'" id="tambahBtn" variant="outline-primary" v-b-modal.modal-kd>Tambah <b-icon icon="plus-circle"></b-icon> </b-btn>
             <b-modal id="modal-kd" centered size="md" hide-footer hide-header>
                 <add-kimia-darah/>
             </b-modal>
@@ -28,8 +28,8 @@
                         <td>{{ kimiadarah.metode }}</td>
                         <td>Rp. {{ kimiadarah.harga }}</td>
                         <td>
-                            <b-btn :to="{name: 'Update Kimia Darah', params: { id: kimiadarah.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
-                            <button v-if="loginAs === 'Registrasi' || loginAs === 'Manajer'" @click.prevent="deleteUser(kimiadarah.key)" class="btn btn-danger"><b-icon icon="trash"></b-icon></button>
+                            <b-btn v-if="loginAs === 'Manajer'" :to="{name: 'Update Kimia Darah', params: { id: kimiadarah.key }}" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn>
+                            <button v-if="loginAs === 'Manajer'" @click.prevent="deleteUser(kimiadarah.key)" class="btn btn-danger"><b-icon icon="trash"></b-icon></button>
                         </td>
                     </tr>
                 </tbody>
@@ -57,7 +57,7 @@
                         <td>{{ datapasien.namaPasien }}</td>
                         <td>{{ datapasien.namaDokter }}</td>
                         <td>{{ datapasien.namaRuangan }}</td>
-                        <td></td>
+                        <td>{{ datapasien.pemeriksaanKimDar[0].prosesKimDar}}</td>
                         <td><b-btn :to="{name: 'Form Pemeriksaan', params: { id: datapasien.key }}" @click="sendPath" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn></td>
                     </tr>
                 </tbody>
@@ -96,14 +96,16 @@ export default {
                 nomorTelpRuangan: '',
                 diagnosa: '',
 
-                daftarPemeriksaan: [],
+                daftarPemeriksaan:[],
                 pemeriksaanKimDar:[],
                 pemeriksaanUrin:[],
                 pemeriksaanHema:[],
                 pemeriksaanLain:[],
-                price: 0
+                price: 0,
+                proses: ''
             },
-            loginAs: null
+            loginAs: null,
+            temp: []
         }
     },
     created() {
@@ -164,6 +166,7 @@ export default {
                         namaRuangan : doc.data().namaRuangan,
                         nomorTelpRuangan : doc.data().nomorTelpRuangan,
                         diagnosa : doc.data().diagnosa,
+                        proses : doc.data().pemeriksaanKimDar[0].proses,
                         daftarPemeriksaan : doc.data().daftarPemeriksaan,
                         pemeriksaanKimDar : doc.data().pemeriksaanKimDar,
                         pemeriksaanHema : doc.data().pemeriksaanHema,
