@@ -77,6 +77,7 @@
                             </table>
                             <b-form-checkbox v-model="user.review" value='true' unchecked-value='false' @change="validate(user.key, user.review)">Validasi Review Hasil</b-form-checkbox>
                         </div>
+                        {{tempData}}
                     </div>
                 </div>
             </div>
@@ -95,6 +96,7 @@ export default {
         return{
             Users: [],
             tempData: {
+                id: '',
                 nomor: '',
                 namaPasien: '',
                 tanggal:'',
@@ -113,7 +115,7 @@ export default {
                 nomorTelpRuangan: '',
                 diagnosa: '',
 
-                daftarPemeriksaan: [],
+                daftarPemeriksaan:[],
                 pemeriksaanKimDar:[],
                 pemeriksaanUrin:[],
                 pemeriksaanHema:[],
@@ -126,46 +128,44 @@ export default {
         }
     },
     created() {
-        this.getData()
-    },
-    methods: {
-        getData() {
-            db.collection('ReviewHasil').onSnapshot((snapshotChange) => {
-                this.Users = [];
-                snapshotChange.forEach((doc) => {
-                    this.Users.push({
-                        key : doc.id,
-                        nomor : doc.data().nomor,
-                        namaPasien : doc.data().namaPasien,
-                        tanggal : doc.data().tanggal,
-                        tanggalLahir : doc.data().tanggalLahir,
-                        tempatLahir : doc.data().tempatLahir,
-                        jenisKelamin : doc.data().jenisKelamin,
-                        statusPasien : doc.data().statusPasien,
-                        nik : doc.data().nik,
-                        nomorJamkes : doc.data().nomorJamkes,
-                        nomorKontak : doc.data().nomorKontak,
-                        alamatLengkap : doc.data().alamatLengkap,
-                        nomorOrderLab : doc.data().nomorOrderLab,
-                        namaDokter : doc.data().namaDokter,
-                        namaRuangan : doc.data().namaRuangan,
-                        nomorTelpRuangan : doc.data().nomorTelpRuangan,
-                        diagnosa : doc.data().diagnosa,
-                        daftarPemeriksaan : doc.data().daftarPemeriksaan,
-                        pemeriksaanKimDar : doc.data().pemeriksaanKimDar,
-                        pemeriksaanHema : doc.data().pemeriksaanHema,
-                        pemeriksaanUrin : doc.data().pemeriksaanUrin,
-                        pemeriksaanLain : doc.data().pemeriksaanLain,
-                        review: doc.data().review,
-                        from: doc.data().from,
-                        price : doc.data().price,
-                        proses: doc.data().proses
-                    })
+        db.collection('ReviewHasil').onSnapshot((snapshotChange) => {
+            this.Users = [];
+            snapshotChange.forEach((doc) => {
+                this.Users.push({
+                    key : doc.id,
+                    nomor : doc.data().nomor,
+                    namaPasien : doc.data().namaPasien,
+                    tanggal : doc.data().tanggal,
+                    tanggalLahir : doc.data().tanggalLahir,
+                    tempatLahir : doc.data().tempatLahir,
+                    jenisKelamin : doc.data().jenisKelamin,
+                    statusPasien : doc.data().statusPasien,
+                    nik : doc.data().nik,
+                    nomorJamkes : doc.data().nomorJamkes,
+                    nomorKontak : doc.data().nomorKontak,
+                    alamatLengkap : doc.data().alamatLengkap,
+                    nomorOrderLab : doc.data().nomorOrderLab,
+                    namaDokter : doc.data().namaDokter,
+                    namaRuangan : doc.data().namaRuangan,
+                    nomorTelpRuangan : doc.data().nomorTelpRuangan,
+                    diagnosa : doc.data().diagnosa,
+                    daftarPemeriksaan : doc.data().daftarPemeriksaan,
+                    pemeriksaanKimDar : doc.data().pemeriksaanKimDar,
+                    pemeriksaanHema : doc.data().pemeriksaanHema,
+                    pemeriksaanUrin : doc.data().pemeriksaanUrin,
+                    pemeriksaanLain : doc.data().pemeriksaanLain,
+                    review: doc.data().review,
+                    from: doc.data().from,
+                    price : doc.data().price,
+                    proses: doc.data().proses
                 })
             })
-        },
+        })
+    },
+    methods: {
         async validate(id, valid){
             await db.collection('ReviewHasil').doc(id).get().then((doc) => {
+                this.tempData.id = doc.id
                 this.tempData.nomor = doc.data().nomor
                 this.tempData.namaPasien = doc.data().namaPasien
                 this.tempData.tanggal = doc.data().tanggal
@@ -221,9 +221,40 @@ export default {
                         this.tempData.pemeriksaanLain[0].prosesLain = 'Menunggu Validasi'
                     }
                 }
+            }).then(() => {
+                db.collection('ReviewHasil').doc(this.tempData.id).update(this.tempData).then(() => {
+                    db.collection('Pemeriksaan').doc(this.tempData.nomorOrderLab).update(this.tempData).then(() => {
+                        this.tempData.id = ''
+                        this.tempData.nomor= '',
+                        this.tempData.namaPasien= ''
+                        this.tempData.tanggal='',
+                        this.tempData.tanggalLahir= '',
+                        this.tempData.tempatLahir= '',
+                        this.tempData.jenisKelamin='',
+                        this.tempData.statusPasien='',
+                        this.tempData.nik='',
+                        this.tempData.nomorJamkes='',
+                        this.tempData.nomorKontak='',
+                        this.tempData.alamatLengkap='',
+
+                        this.tempData.nomorOrderLab= '',
+                        this.tempData.namaDokter= '',
+                        this.tempData.namaRuangan= '',
+                        this.tempData.nomorTelpRuangan= '',
+                        this.tempData.diagnosa= '',
+
+                        this.tempData.daftarPemeriksaan= [],
+                        this.tempData.pemeriksaanKimDar=[],
+                        this.tempData.pemeriksaanUrin=[],
+                        this.tempData.pemeriksaanHema=[],
+                        this.tempData.pemeriksaanLain=[],
+                        this.tempData.price= 0,
+                        this.tempData.from= '',
+                        this.tempData.review= 'false',
+                        this.tempData.proses= ''
+                    })
+                }) 
             })
-            db.collection('ReviewHasil').doc(id).update(this.tempData)
-            db.collection('Pemeriksaan').doc(this.tempData.nomorOrderLab).update(this.tempData)
         },
     }
 }
