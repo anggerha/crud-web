@@ -3,9 +3,10 @@
         <div>
             <sidebar/>
         </div>
-        <div class="container">
+        <div class="container" ref="content">
             <div v-for="user in Users" :key="user.key" id="outer">
-                <b-button variant="outline-primary" style="display:flex; float: right;">Cetak</b-button>
+                <b-button variant="outline-danger" style="display:flex; float: right;" @click.prevent="deleteReview(user.key)">Hapus</b-button>
+                <b-button variant="outline-primary" style="display:flex; float: right; margin-right: 0.5rem;" @click="cetak(user.key)">Cetak</b-button>
                 <h3 style="float:left;">Review Hasil Laboratorium {{user.nomorOrderLab}}</h3>
                 <br><br>
                     <div>
@@ -42,7 +43,7 @@
                                     <tr v-for="pemeriksaankimdar in user.pemeriksaanKimDar" :key="pemeriksaankimdar.key">
                                         <td></td>
                                         <td>{{pemeriksaankimdar.jenisPemeriksaan}}</td>
-                                        <td><b-form-input id="hasil" v-model="pemeriksaankimdar.hasil" placeholder="Hasil"></b-form-input></td>
+                                        <td><b-form-input id="hasil" v-model="pemeriksaankimdar.hasil" placeholder="Hasil" disabled></b-form-input></td>
                                         <td>{{pemeriksaankimdar.satuan}}</td>
                                         <td>{{pemeriksaankimdar.nilaiRujukan}}</td>
                                     </tr>
@@ -51,7 +52,7 @@
                                     <tr v-for="pemeriksaanhema in user.pemeriksaanHema" :key="pemeriksaanhema.key">
                                         <td></td>
                                         <td>{{pemeriksaanhema.jenisPemeriksaan}}</td>
-                                        <td><b-form-input id="hasil" v-model="pemeriksaanhema.hasil" placeholder="Hasil"></b-form-input></td>
+                                        <td><b-form-input id="hasil" v-model="pemeriksaanhema.hasil" placeholder="Hasil" disabled></b-form-input></td>
                                         <td>{{pemeriksaanhema.satuan}}</td>
                                         <td>{{pemeriksaanhema.nilaiRujukan}}</td>
                                     </tr>
@@ -60,7 +61,7 @@
                                     <tr v-for="pemeriksaanurin in user.pemeriksaanUrin" :key="pemeriksaanurin.key">
                                         <td></td>
                                         <td>{{pemeriksaanurin.jenisPemeriksaan}}</td>
-                                        <td><b-form-input id="hasil" v-model="pemeriksaanurin.hasil" placeholder="Hasil"></b-form-input></td>
+                                        <td><b-form-input id="hasil" v-model="pemeriksaanurin.hasil" placeholder="Hasil" disabled></b-form-input></td>
                                         <td>{{pemeriksaanurin.satuan}}</td>
                                         <td>{{pemeriksaanurin.nilaiRujukan}}</td>
                                     </tr>
@@ -69,15 +70,14 @@
                                     <tr v-for="pemeriksaanlain in user.pemeriksaanLain" :key="pemeriksaanlain.key">
                                         <td></td>
                                         <td>{{pemeriksaanlain.jenisPemeriksaan}}</td>
-                                        <td><b-form-input id="hasil" v-model="pemeriksaanlain.hasil" placeholder="Hasil"></b-form-input></td>
+                                        <td><b-form-input id="hasil" v-model="pemeriksaanlain.hasil" placeholder="Hasil" disabled></b-form-input></td>
                                         <td>{{pemeriksaanlain.satuan}}</td>
                                         <td>{{pemeriksaanlain.nilaiRujukan}}</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <b-form-checkbox v-model="user.review" value='true' unchecked-value='false' @change="validate(user.key, user.review)">Validasi Review Hasil</b-form-checkbox>
+                            <b-form-checkbox v-model="user.review" value='true' unchecked-value='false' @change="validate(user.key, user.nomorOrderLab, user.review)">Validasi Review Hasil</b-form-checkbox>
                         </div>
-                        {{tempData}}
                     </div>
                 </div>
             </div>
@@ -163,8 +163,8 @@ export default {
         })
     },
     methods: {
-        async validate(id, valid){
-            await db.collection('ReviewHasil').doc(id).get().then((doc) => {
+        validate(id, nomorOrderLab, valid){
+            db.collection('Pemeriksaan').doc(nomorOrderLab).get().then((doc) => {
                 this.tempData.id = doc.id
                 this.tempData.nomor = doc.data().nomor
                 this.tempData.namaPasien = doc.data().namaPasien
@@ -199,7 +199,7 @@ export default {
                 this.tempData.pemeriksaanUrin = doc.data().pemeriksaanUrin
                 this.tempData.pemeriksaanLain = doc.data().pemeriksaanLain
 
-                this.tempData.from = localStorage.getItem('From')
+                this.tempData.from = doc.data().from
                 if(valid === 'true'){
                     if(this.tempData.from === 'KimDar'){
                         this.tempData.pemeriksaanKimDar[0].prosesKimDar = 'Selesai'
@@ -222,8 +222,8 @@ export default {
                     }
                 }
             }).then(() => {
-                db.collection('ReviewHasil').doc(this.tempData.id).update(this.tempData).then(() => {
-                    db.collection('Pemeriksaan').doc(this.tempData.nomorOrderLab).update(this.tempData).then(() => {
+                db.collection('ReviewHasil').doc(id).update(this.tempData).then(() => {
+                    db.collection('Pemeriksaan').doc(nomorOrderLab).update(this.tempData).then(() => {
                         this.tempData.id = ''
                         this.tempData.nomor= '',
                         this.tempData.namaPasien= ''
@@ -243,7 +243,7 @@ export default {
                         this.tempData.nomorTelpRuangan= '',
                         this.tempData.diagnosa= '',
 
-                        this.tempData.daftarPemeriksaan= [],
+                        this.tempData.daftarPemeriksaan=[],
                         this.tempData.pemeriksaanKimDar=[],
                         this.tempData.pemeriksaanUrin=[],
                         this.tempData.pemeriksaanHema=[],
@@ -253,9 +253,18 @@ export default {
                         this.tempData.review= 'false',
                         this.tempData.proses= ''
                     })
-                }) 
+                })
             })
         },
+        deleteReview(id){
+            if (window.confirm("Konfirmasi menghapus review?")) {
+            db.collection("ReviewHasil").doc(id).delete().then(() => {})
+            .catch((error) => {
+                console.error(error);
+            })
+            }
+        },
+        
     }
 }
 </script>
