@@ -55,7 +55,7 @@
                         <td>{{ datapasien.namaPasien }}</td>
                         <td>{{ datapasien.namaDokter }}</td>
                         <td>{{ datapasien.namaRuangan }}</td>
-                        <td><b-btn :to="{name: 'Form Pemeriksaan', params: { id: datapasien.key }}" @click="sendPath" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn></td>
+                        <td><b-btn v-if="loginAs === 'Laboran'" :to="{name: 'Form Pemeriksaan', params: { id: datapasien.key }}" @click="sendPath" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn></td>
                     </tr>
                 </tbody>
             </table>
