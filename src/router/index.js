@@ -9,6 +9,7 @@ import LainLain from '../components/LainLain.vue'
 import Registrasi from '../components/Registrasi.vue'
 import ReviewHasil from '../components/ReviewHasil.vue'
 import PemeriksaanPasien from '../components/PemeriksaanPasien.vue'
+import Cetak from '../components/Cetak.vue'
 
 import UpdateData from '../layout/UpdateData.vue'
 import UpdatePemeriksaan from '../layout/UpdatePemeriksaan.vue'
@@ -20,6 +21,7 @@ import AddPemeriksaan from '../layout/AddPemeriksaan.vue'
 import DaftarPemeriksaan from '../layout/DaftarPemeriksaan.vue'
 import FormPemeriksaan from '../layout/FormPemeriksaan.vue'
 import PreReview from '../layout/PreReview.vue'
+
 
 Vue.use(VueRouter)
 
@@ -75,6 +77,12 @@ const routes = [
     path: '/PemeriksaanPasien',
     name: 'Pemeriksaan Pasien',
     component: PemeriksaanPasien,
+    props: true
+  },
+  {
+    path: '/Cetak',
+    name: 'Cetak',
+    component: Cetak,
     props: true
   },
 

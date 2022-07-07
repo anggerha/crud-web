@@ -118,6 +118,7 @@ export default {
                 pemeriksaanHema:[],
                 pemeriksaanLain:[],
                 price: 0,
+                proses: ''
             },
             pemeriksaanKimDar: [],
             pemeriksaanHema: [],

@@ -46,7 +46,6 @@
                         <th>Nama Pasien</th>
                         <th>Dokter</th>
                         <th>Ruangan</th>
-                        <th>Proses</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -57,7 +56,6 @@
                         <td>{{ datapasien.namaPasien }}</td>
                         <td>{{ datapasien.namaDokter }}</td>
                         <td>{{ datapasien.namaRuangan }}</td>
-                        <td>{{ datapasien.pemeriksaanKimDar[0].prosesKimDar}}</td>
                         <td><b-btn :to="{name: 'Form Pemeriksaan', params: { id: datapasien.key }}" @click="sendPath" variant="outline-primary"><b-icon icon="pencil"></b-icon></b-btn></td>
                     </tr>
                 </tbody>

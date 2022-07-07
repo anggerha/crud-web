@@ -6,7 +6,7 @@
         <div class="container" ref="content">
             <div v-for="user in Users" :key="user.key" id="outer">
                 <b-button variant="outline-danger" style="display:flex; float: right;" @click.prevent="deleteReview(user.key)">Hapus</b-button>
-                <b-button variant="outline-primary" style="display:flex; float: right; margin-right: 0.5rem;" @click="cetak(user.key)">Cetak</b-button>
+                <b-button variant="outline-primary" style="display:flex; float: right; margin-right: 0.5rem;" :to="{name: 'Cetak', params: { id: user.key }}">Cetak</b-button>
                 <h3 style="float:left;">Review Hasil Laboratorium {{user.nomorOrderLab}}</h3>
                 <br><br>
                     <div>
@@ -76,7 +76,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <b-form-checkbox v-model="user.review" value='true' unchecked-value='false' @change="validate(user.key, user.nomorOrderLab, user.review)">Validasi Review Hasil</b-form-checkbox>
+                            <b-form-checkbox v-model="user.review" value='true' unchecked-value='false' @change="validate(user.key, user.review)">Validasi Review Hasil</b-form-checkbox>
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
 
 <script>
 import sidebar from '../layout/Sidebar'
-import { db } from '../components/firebase';
+import { db } from '../components/firebase'
 
 export default {
     name: 'ReviewHasil',
@@ -128,7 +128,7 @@ export default {
         }
     },
     created() {
-        db.collection('ReviewHasil').onSnapshot((snapshotChange) => {
+        db.collection('ReviewHasil').orderBy('namaPasien', 'asc').onSnapshot((snapshotChange) => {
             this.Users = [];
             snapshotChange.forEach((doc) => {
                 this.Users.push({
@@ -163,8 +163,8 @@ export default {
         })
     },
     methods: {
-        validate(id, nomorOrderLab, valid){
-            db.collection('Pemeriksaan').doc(nomorOrderLab).get().then((doc) => {
+        validate(id, valid){
+            db.collection('ReviewHasil').doc(id).get().then((doc) => {
                 this.tempData.id = doc.id
                 this.tempData.nomor = doc.data().nomor
                 this.tempData.namaPasien = doc.data().namaPasien
@@ -223,7 +223,6 @@ export default {
                 }
             }).then(() => {
                 db.collection('ReviewHasil').doc(id).update(this.tempData).then(() => {
-                    db.collection('Pemeriksaan').doc(nomorOrderLab).update(this.tempData).then(() => {
                         this.tempData.id = ''
                         this.tempData.nomor= '',
                         this.tempData.namaPasien= ''
@@ -252,7 +251,6 @@ export default {
                         this.tempData.from= '',
                         this.tempData.review= 'false',
                         this.tempData.proses= ''
-                    })
                 })
             })
         },
@@ -263,8 +261,7 @@ export default {
                 console.error(error);
             })
             }
-        },
-        
+        }
     }
 }
 </script>
