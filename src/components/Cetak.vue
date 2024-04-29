@@ -1,29 +1,29 @@
 <template>
     <div class="container" >
         <b-button variant="outline-danger" @click="kembali" style="display:flex; float: right;">Kembali</b-button>
-        <b-button variant="outline-success" @click="cetak(user.key)" style="display:flex; float: right;">Cetak Halaman</b-button>
+        <b-button variant="outline-success" @click="cetak(user.id)" style="display:flex; float: right;">Cetak Halaman</b-button>
         <div ref="content">
             <table style="width: 75%; text-align: justify;">
-            <tr>
-                <td rowspan="5" class="kop"><img src="../assets/ProLab.png" alt="ProLab Logo" style="display:flex"></td>
-                <td class="kop"><h4>PEMERINTAHAN KOTA YOGYAKARTA</h4></td>
-            </tr>
-            <tr>
-                <td class="kop"><h1>PRO LABORATORIUM</h1></td>
-            </tr>
-            <tr>
-                <td class="kop">Jl. Ngadinegaran MJ 99</td>
-            </tr>
-            <tr>
-                <td class="kop">Telp. (0867) 030117 Email: prolaboratorium@gmail.go.id</td>
-            </tr>
-            <tr>
-                <td class="kop">Kota Yogyakarta</td>
-            </tr>
-        </table>
+                <tr>
+                    <td rowspan="5" class="kop"><img src="../assets/ProLab.png" alt="ProLab Logo" style="display:flex"></td>
+                    <td class="kop"><h4>PEMERINTAHAN KOTA YOGYAKARTA</h4></td>
+                </tr>
+                <tr>
+                    <td class="kop"><h1>PRO LABORATORIUM</h1></td>
+                </tr>
+                <tr>
+                    <td class="kop">Jl. Ngadinegaran MJ 99</td>
+                </tr>
+                <tr>
+                    <td class="kop">Telp. (0867) 030117 Email: prolaboratorium@gmail.go.id</td>
+                </tr>
+                <tr>
+                    <td class="kop">Kota Yogyakarta</td>
+                </tr>
+            </table>
         
-        <h3 style="text-align: center; border-top: 2px solid black; border-bottom: 1px solid black; padding: 2%; margin-top: 2rem;">Review Hasil Laboratorium {{user.nomorOrderLab}}</h3>
-        <br>
+            <h3 style="text-align: center; border-top: 2px solid black; border-bottom: 1px solid black; padding: 2%; margin-top: 2rem;">Review Hasil Laboratorium {{user.nomorOrderLab}}</h3>
+            <br>
             <div>
                 <div id="top">
                     <tr>

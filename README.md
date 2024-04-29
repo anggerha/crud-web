@@ -1,5 +1,9 @@
 # crudweb
 
+# NPM
+```
+use npm version 16
+```
 ## Project setup
 ```
 npm install
